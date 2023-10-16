@@ -1,7 +1,7 @@
 import { TPaginateResponse, TResponseData } from '@/utils/entities/response';
 
 export type TUserResponse = {
-  id: number;
+  id: string;
   fullname: string;
   email: string;
   createdAt: string;

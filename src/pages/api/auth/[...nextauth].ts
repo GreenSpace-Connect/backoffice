@@ -50,6 +50,7 @@ export const authOptions: NextAuthOptions = {
       session = {
         ...session,
         accessToken: token.accessToken,
+        user: token.user,
       };
 
       return session;

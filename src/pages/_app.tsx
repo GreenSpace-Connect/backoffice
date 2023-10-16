@@ -25,9 +25,7 @@ export default function App({
    */
   const theme: ThemeConfig = {
     components: {
-      Menu: {
-        itemHeight: 36,
-      },
+      Menu: {},
     },
     token: {
       fontFamily: `'Poppins', sans-serif`,

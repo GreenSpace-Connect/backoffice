@@ -9,7 +9,6 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const isTokenExists = !!token?.accessToken;
-
         if (req.nextUrl.pathname === '/backoffice') {
           if (!isTokenExists) {
             return true;

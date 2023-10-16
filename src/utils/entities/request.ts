@@ -1,15 +1,15 @@
-// import { UseQueryOptions } from '@tanstack/react-query';
-// import { TResponseError } from './response';
+import { UseQueryOptions } from 'react-query';
+import { TResponseError } from './response';
 
-// export type TGetListHookParams<Params, Response> = {
-//   params?: Params;
-//   options?: UseQueryOptions<Response, TResponseError<Response>>;
-// };
+export type TGetListHookParams<Params, Response> = {
+  params?: Params;
+  options?: UseQueryOptions<Response, TResponseError<Response>>;
+};
 
-// export type TGetDetailHookParams<Id, Response> = {
-//   id: Id;
-//   options?: UseQueryOptions<Response, TResponseError<Response>>;
-// };
+export type TGetDetailHookParams<Id, Response> = {
+  id: Id;
+  options?: UseQueryOptions<Response, TResponseError<Response>>;
+};
 
 export type TUpdateParams<Id, Payload> = {
   id: Id;
