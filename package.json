@@ -15,6 +15,7 @@
     "antd": "5.5",
     "axios": "^1.5.1",
     "humps": "^2.0.1",
+    "lodash": "^4.17.21",
     "next": "13.5.4",
     "next-auth": "^4.23.2",
     "react": "^18",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/humps": "^2.0.4",
+    "@types/lodash": "^4.14.199",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -1,25 +1,24 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import { TUserPaginateResponse, TUserResponse } from '../entities/response';
+import { TCityPaginateResponse, TCityResponse } from '../entities/response';
 import { Form } from 'antd';
-import { TUserPayload } from '../entities/request';
-import { useCreateUser, useDeleteUser, useUpdateUser } from './useQuery';
+import { TCityPayload } from '../entities/request';
+import { useCreateCity, useDeleteCity, useUpdateCity } from './useQuery';
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useUserForm = (
-  dataHook: TExpectQueryResult<TUserPaginateResponse>,
+export const useCityForm = (
+  dataHook: TExpectQueryResult<TCityPaginateResponse>,
 ) => {
-  const [form] = Form.useForm<TUserPayload>();
+  const [form] = Form.useForm<TCityPayload>();
 
-  const setFields = (record: TUserResponse) => {
+  const setFields = (record: TCityResponse) => {
     form.setFieldsValue({
-      email: record.email,
-      fullname: record.fullname,
-      roleId: record.role.id,
+      name: record.name,
+      provinceId: record.province.id,
     });
   };
 
-  const createMutation = useCreateUser();
+  const createMutation = useCreateCity();
   const onCreate = () => {
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -33,8 +32,8 @@ export const useUserForm = (
     });
   };
 
-  const updateMutation = useUpdateUser();
-  const onUpdate = (id: TUserResponse['id']) => {
+  const updateMutation = useUpdateCity();
+  const onUpdate = (id: TCityResponse['id']) => {
     updateMutation.mutate(
       {
         id,
@@ -54,8 +53,8 @@ export const useUserForm = (
     );
   };
 
-  const deleteMutation = useDeleteUser();
-  const onDelete = (id: TUserResponse['id']) => {
+  const deleteMutation = useDeleteCity();
+  const onDelete = (id: TCityResponse['id']) => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();

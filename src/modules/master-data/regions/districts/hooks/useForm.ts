@@ -1,25 +1,30 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import { TUserPaginateResponse, TUserResponse } from '../entities/response';
+import {
+  TDistrictPaginateResponse,
+  TDistrictResponse,
+} from '../entities/response';
 import { Form } from 'antd';
-import { TUserPayload } from '../entities/request';
-import { useCreateUser, useDeleteUser, useUpdateUser } from './useQuery';
+import { TDistrictPayload } from '../entities/request';
+import {
+  useCreateDistrict,
+  useDeleteDistrict,
+  useUpdateDistrict,
+} from './useQuery';
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useUserForm = (
-  dataHook: TExpectQueryResult<TUserPaginateResponse>,
+export const useDistrictForm = (
+  dataHook: TExpectQueryResult<TDistrictPaginateResponse>,
 ) => {
-  const [form] = Form.useForm<TUserPayload>();
+  const [form] = Form.useForm<TDistrictPayload>();
 
-  const setFields = (record: TUserResponse) => {
+  const setFields = (record: TDistrictResponse) => {
     form.setFieldsValue({
-      email: record.email,
-      fullname: record.fullname,
-      roleId: record.role.id,
+      name: record.name,
     });
   };
 
-  const createMutation = useCreateUser();
+  const createMutation = useCreateDistrict();
   const onCreate = () => {
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -33,8 +38,8 @@ export const useUserForm = (
     });
   };
 
-  const updateMutation = useUpdateUser();
-  const onUpdate = (id: TUserResponse['id']) => {
+  const updateMutation = useUpdateDistrict();
+  const onUpdate = (id: TDistrictResponse['id']) => {
     updateMutation.mutate(
       {
         id,
@@ -54,8 +59,8 @@ export const useUserForm = (
     );
   };
 
-  const deleteMutation = useDeleteUser();
-  const onDelete = (id: TUserResponse['id']) => {
+  const deleteMutation = useDeleteDistrict();
+  const onDelete = (id: TDistrictResponse['id']) => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();

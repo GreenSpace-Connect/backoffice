@@ -1,5 +1,7 @@
+import AsyncModal from '@/components/modals/AsyncModal';
 import Datatable from '@/components/tables/Datatable';
 import BackofficeLayout from '@/layouts/BackofficeLayout';
+import UserForm from '@/modules/master-data/users/components/UserForm';
 import { TUserParams } from '@/modules/master-data/users/entities/request';
 import { TUserResponse } from '@/modules/master-data/users/entities/response';
 import { useUserForm } from '@/modules/master-data/users/hooks/useForm';
@@ -7,14 +9,25 @@ import { useGetUsers } from '@/modules/master-data/users/hooks/useQuery';
 import { confirmDelete } from '@/services/antd/confirm';
 import { getnumberColumn } from '@/services/antd/table';
 import { useTableFilter } from '@/utils/hooks/useFilter';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Space } from 'antd';
 
-export default function Dashboard() {
+export default function UsersPage() {
   const filterHook = useTableFilter<TUserParams, TUserResponse>();
-  const userDataHook = useGetUsers({});
+  const userDataHook = useGetUsers({
+    params: filterHook.params,
+  });
 
-  const { deleteMutation, onDelete } = useUserForm(userDataHook);
+  const {
+    form,
+    setFields,
+    createMutation,
+    onCreate,
+    updateMutation,
+    onUpdate,
+    deleteMutation,
+    onDelete,
+  } = useUserForm(userDataHook);
 
   return (
     <BackofficeLayout
@@ -24,15 +37,29 @@ export default function Dashboard() {
         { title: 'Users' },
       ]}
       extra={
-        <>
-          <Button type="primary" icon={<PlusOutlined />}>
-            Add
-          </Button>
-        </>
+        <Space>
+          <AsyncModal
+            title="Update"
+            button={
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={() => form.resetFields()}
+              >
+                Add Item
+              </Button>
+            }
+            mutation={createMutation}
+            onSubmit={form.submit}
+          >
+            <UserForm form={form} onFinish={onCreate} />
+          </AsyncModal>
+        </Space>
       }
     >
       <Card>
         <Datatable
+          onSearch={(value) => filterHook.onChange('search', value)}
           tableProps={{
             dataSource: userDataHook.data?.items,
             loading: userDataHook.isFetching,
@@ -50,7 +77,7 @@ export default function Dashboard() {
                 fixed: 'right',
                 render: (_, record) => (
                   <Space>
-                    {/* <AsyncModal
+                    <AsyncModal
                       title="Update"
                       button={
                         <Button
@@ -63,8 +90,11 @@ export default function Dashboard() {
                       mutation={updateMutation}
                       onSubmit={form.submit}
                     >
-                      <UserForm form={form} onFinish={() => onUpdate(record.id)} />
-                    </AsyncModal> */}
+                      <UserForm
+                        form={form}
+                        onFinish={() => onUpdate(record.id)}
+                      />
+                    </AsyncModal>
 
                     <Button
                       icon={<DeleteOutlined />}

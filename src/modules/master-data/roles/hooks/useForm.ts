@@ -1,25 +1,23 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import { TUserPaginateResponse, TUserResponse } from '../entities/response';
+import { TRolePaginateResponse, TRoleResponse } from '../entities/response';
 import { Form } from 'antd';
-import { TUserPayload } from '../entities/request';
-import { useCreateUser, useDeleteUser, useUpdateUser } from './useQuery';
+import { TRolePayload } from '../entities/request';
+import { useCreateRole, useDeleteRole, useUpdateRole } from './useQuery';
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useUserForm = (
-  dataHook: TExpectQueryResult<TUserPaginateResponse>,
+export const useRoleForm = (
+  dataHook: TExpectQueryResult<TRolePaginateResponse>,
 ) => {
-  const [form] = Form.useForm<TUserPayload>();
+  const [form] = Form.useForm<TRolePayload>();
 
-  const setFields = (record: TUserResponse) => {
+  const setFields = (record: TRoleResponse) => {
     form.setFieldsValue({
-      email: record.email,
-      fullname: record.fullname,
-      roleId: record.role.id,
+      name: record.name,
     });
   };
 
-  const createMutation = useCreateUser();
+  const createMutation = useCreateRole();
   const onCreate = () => {
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -33,8 +31,8 @@ export const useUserForm = (
     });
   };
 
-  const updateMutation = useUpdateUser();
-  const onUpdate = (id: TUserResponse['id']) => {
+  const updateMutation = useUpdateRole();
+  const onUpdate = (id: TRoleResponse['id']) => {
     updateMutation.mutate(
       {
         id,
@@ -54,8 +52,8 @@ export const useUserForm = (
     );
   };
 
-  const deleteMutation = useDeleteUser();
-  const onDelete = (id: TUserResponse['id']) => {
+  const deleteMutation = useDeleteRole();
+  const onDelete = (id: TRoleResponse['id']) => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();

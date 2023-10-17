@@ -1,15 +1,24 @@
-import { DashboardOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import {
+  GlobalOutlined,
+  KeyOutlined,
+  PieChartOutlined,
+  UserOutlined,
+  UsergroupAddOutlined,
+} from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 
 export default function SideBar() {
   const pathname = usePathname();
+  const router = useRouter();
 
-  const getActivedKey = () => {
-    const foundIndex = mockdata.findIndex((item) => item.href === pathname);
+  const getOpenMenus = () => {
+    const found = menus
+      .filter((item) => pathname?.includes(String(item.key)))
+      .pop();
 
-    return String(foundIndex + 1);
+    return [String(found?.key)];
   };
 
   return (
@@ -34,14 +43,12 @@ export default function SideBar() {
           <Menu
             theme="dark"
             mode="inline"
-            selectedKeys={[getActivedKey()]}
-            items={mockdata.map((item, index) => {
-              return {
-                key: index + 1,
-                ...item,
-                label: <Link href={item.href}>{item.label}</Link>,
-              };
-            })}
+            defaultSelectedKeys={[pathname ?? '']}
+            defaultOpenKeys={getOpenMenus()}
+            items={menus}
+            onClick={(item) => {
+              router.push(item.key);
+            }}
           />
         </div>
       </Layout.Sider>
@@ -49,17 +56,34 @@ export default function SideBar() {
   );
 }
 
-type MenuItem = {
-  label: string;
-  icon: React.ReactNode;
-  href: string;
-};
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItemType[],
+): MenuItemType {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItemType;
+}
 
-const mockdata: MenuItem[] = [
-  {
-    label: 'Dashboard',
-    icon: <DashboardOutlined />,
-    href: '/backoffice/dashboard',
-  },
-  { icon: <UsergroupAddOutlined />, label: 'Users', href: '/backoffice/users' },
+const menus: MenuItemType[] = [
+  getItem('Dashboard', '/backoffice/dashboard', <PieChartOutlined />),
+  getItem('Region', '/backoffice/regions', <GlobalOutlined />, [
+    getItem('Province', '/backoffice/regions/provinces'),
+    getItem('City', '/backoffice/regions/cities'),
+    getItem('District', '/backoffice/regions/districts'),
+  ]),
+  getItem(
+    'User Setting',
+    '/backoffice/user-settings',
+    <UsergroupAddOutlined />,
+    [
+      getItem('Role', '/backoffice/user-settings/roles', <KeyOutlined />),
+      getItem('User', '/backoffice/user-settings/users', <UserOutlined />),
+    ],
+  ),
 ];
