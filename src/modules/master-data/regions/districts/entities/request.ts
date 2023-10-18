@@ -4,6 +4,7 @@ import { TCityResponse } from '../../cities/entities/response';
 
 export type TDistrictParams = TDefaultParams<TDistrictResponse> & {
   search?: string;
+  cityId?: TCityResponse['id'];
 };
 
 export type TDistrictPayload = {

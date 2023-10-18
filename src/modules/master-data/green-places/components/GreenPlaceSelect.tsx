@@ -1,26 +1,21 @@
 import { Select, SelectProps } from 'antd';
 import { debounce } from 'lodash';
 import { useState } from 'react';
-import { useGetCities } from '../hooks/useQuery';
-import { TProvinceResponse } from '../../provinces/entities/response';
+import { useGetGreenPlaces } from '../hooks/useQuery';
 
-type CitySelectProps = SelectProps & {
-  provinceId?: TProvinceResponse['id'];
-};
+type GreenPlaceSelectProps = SelectProps;
 
-export default function CitySelect(props: CitySelectProps) {
-  const { provinceId, ...rest } = props;
+export default function GreenPlaceSelect(props: GreenPlaceSelectProps) {
+  const { ...rest } = props;
 
   const [search, setSearch] = useState('');
 
-  const dataHook = useGetCities({
+  const dataHook = useGetGreenPlaces({
     params: {
       search,
-      provinceId,
     },
     options: {
       staleTime: 3000,
-      enabled: !!provinceId,
     },
   });
 

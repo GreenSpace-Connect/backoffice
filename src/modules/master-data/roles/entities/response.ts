@@ -1,7 +1,7 @@
 import { TPaginateResponse, TResponseData } from '@/utils/entities/response';
 
 export type TRoleResponse = {
-  id: string;
+  id: number;
   name: string;
   createdAt: string;
   updatedAt: string;

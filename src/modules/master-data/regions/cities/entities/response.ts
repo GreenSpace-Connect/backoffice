@@ -2,7 +2,7 @@ import { TPaginateResponse, TResponseData } from '@/utils/entities/response';
 import { TProvinceResponse } from '../../provinces/entities/response';
 
 export type TCityResponse = {
-  id: string;
+  id: number;
   name: string;
   province: TProvinceResponse;
   createdAt: string;

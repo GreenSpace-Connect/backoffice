@@ -8,7 +8,7 @@ type DatatableProps<Item> = {
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
-export default function Datatable<Item extends { id: string }>(
+export default function Datatable<Item extends { id: unknown }>(
   props: DatatableProps<Item>,
 ) {
   const { tableProps, onSearch } = props;

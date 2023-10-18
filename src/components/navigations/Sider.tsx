@@ -77,6 +77,7 @@ const menus: MenuItemType[] = [
     getItem('City', '/backoffice/regions/cities'),
     getItem('District', '/backoffice/regions/districts'),
   ]),
+  getItem('Green Place', '/backoffice/green-places', <PieChartOutlined />),
   getItem(
     'User Setting',
     '/backoffice/user-settings',

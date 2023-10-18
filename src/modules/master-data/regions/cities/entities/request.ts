@@ -4,6 +4,7 @@ import { TProvinceResponse } from '../../provinces/entities/response';
 
 export type TCityParams = TDefaultParams<TCityResponse> & {
   search?: string;
+  provinceId?: number;
 };
 
 export type TCityPayload = {

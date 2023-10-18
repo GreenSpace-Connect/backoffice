@@ -1,7 +1,7 @@
 import { TPaginateResponse, TResponseData } from '@/utils/entities/response';
 
 export type TProvinceResponse = {
-  id: string;
+  id: number;
   name: string;
   createdAt: string;
   updatedAt: string;

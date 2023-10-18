@@ -2,20 +2,25 @@ import { Select, SelectProps } from 'antd';
 import { debounce } from 'lodash';
 import { useState } from 'react';
 import { useGetDistricts } from '../hooks/useQuery';
+import { TCityResponse } from '../../cities/entities/response';
 
-type DistrictSelectProps = SelectProps;
+type DistrictSelectProps = SelectProps & {
+  cityId?: TCityResponse['id'];
+};
 
 export default function DistrictSelect(props: DistrictSelectProps) {
-  const { ...rest } = props;
+  const { cityId, ...rest } = props;
 
   const [search, setSearch] = useState('');
 
   const dataHook = useGetDistricts({
     params: {
       search,
+      cityId,
     },
     options: {
       staleTime: 3000,
+      enabled: !!cityId,
     },
   });
 
