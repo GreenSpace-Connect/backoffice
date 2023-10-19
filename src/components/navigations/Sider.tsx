@@ -78,6 +78,7 @@ const menus: MenuItemType[] = [
     getItem('Districts', '/backoffice/regions/districts'),
   ]),
   getItem('Green Places', '/backoffice/green-places', <PieChartOutlined />),
+  getItem('Complaints', '/backoffice/complaints', <PieChartOutlined />),
   getItem('Communities', '/backoffice/communities', <PieChartOutlined />),
   getItem(
     'Community Users',
@@ -85,6 +86,10 @@ const menus: MenuItemType[] = [
     <PieChartOutlined />,
   ),
   getItem('Basecamps', '/backoffice/basecamps', <PieChartOutlined />),
+  getItem('Events', '/backoffice/events', <PieChartOutlined />),
+  getItem('Tickets', '/backoffice/tickets', <PieChartOutlined />),
+  getItem('Donations', '/backoffice/donations', <PieChartOutlined />),
+  getItem('Comments', '/backoffice/comments', <PieChartOutlined />),
   getItem(
     'User Settings',
     '/backoffice/user-settings',
