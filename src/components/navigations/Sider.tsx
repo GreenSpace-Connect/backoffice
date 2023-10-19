@@ -73,18 +73,19 @@ function getItem(
 const menus: MenuItemType[] = [
   getItem('Dashboard', '/backoffice/dashboard', <PieChartOutlined />),
   getItem('Region', '/backoffice/regions', <GlobalOutlined />, [
-    getItem('Province', '/backoffice/regions/provinces'),
-    getItem('City', '/backoffice/regions/cities'),
-    getItem('District', '/backoffice/regions/districts'),
+    getItem('Provinces', '/backoffice/regions/provinces'),
+    getItem('Cities', '/backoffice/regions/cities'),
+    getItem('Districts', '/backoffice/regions/districts'),
   ]),
-  getItem('Green Place', '/backoffice/green-places', <PieChartOutlined />),
+  getItem('Green Places', '/backoffice/green-places', <PieChartOutlined />),
+  getItem('Communities', '/backoffice/communities', <PieChartOutlined />),
   getItem(
-    'User Setting',
+    'User Settings',
     '/backoffice/user-settings',
     <UsergroupAddOutlined />,
     [
-      getItem('Role', '/backoffice/user-settings/roles', <KeyOutlined />),
-      getItem('User', '/backoffice/user-settings/users', <UserOutlined />),
+      getItem('Roles', '/backoffice/user-settings/roles', <KeyOutlined />),
+      getItem('Users', '/backoffice/user-settings/users', <UserOutlined />),
     ],
   ),
 ];
