@@ -79,6 +79,11 @@ const menus: MenuItemType[] = [
   ]),
   getItem('Green Places', '/backoffice/green-places', <PieChartOutlined />),
   getItem('Communities', '/backoffice/communities', <PieChartOutlined />),
+  getItem(
+    'Community Users',
+    '/backoffice/community-users',
+    <PieChartOutlined />,
+  ),
   getItem('Basecamps', '/backoffice/basecamps', <PieChartOutlined />),
   getItem(
     'User Settings',
