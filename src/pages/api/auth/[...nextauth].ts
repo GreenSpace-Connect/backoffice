@@ -6,6 +6,10 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/backoffice',
   },
+  session: {
+    strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
   providers: [
     Credentials({
       name: 'Credentials',
