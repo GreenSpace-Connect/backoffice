@@ -1,6 +1,5 @@
 import {
   Autocomplete,
-  AutocompleteProps,
   GoogleMap,
   Marker,
   useLoadScript,
@@ -16,13 +15,13 @@ type MapProps = {
 export default function Map(props: MapProps) {
   const { onChangedLatLng, onSelectedPlace } = props;
 
-  const [selectedPlace, setSelectedPlace] = useState<google.maps.Place>();
+  const [selectedPlace, setSelectedPlace] = useState<string>();
   const [currentLocation, setCurrentLocation] =
     useState<google.maps.LatLngLiteral>({
       lat: -6.2297401,
       lng: 106.7471174,
     });
-  const autocompleteRef = useRef<AutocompleteProps>();
+  const autocompleteRef = useRef<google.maps.places.Autocomplete>();
 
   // load script for google map
   const { isLoaded } = useLoadScript({
@@ -37,25 +36,25 @@ export default function Map(props: MapProps) {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
       if (place) {
-        setSelectedPlace(place);
+        setSelectedPlace(place.name);
         setCurrentLocation({
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
+          lat: place.geometry?.location?.lat() || 0,
+          lng: place.geometry?.location?.lng() || 0,
         });
 
         if (onChangedLatLng) {
           onChangedLatLng({
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
+            lat: place.geometry?.location?.lat() || 0,
+            lng: place.geometry?.location?.lng() || 0,
           });
         }
 
         if (onSelectedPlace) {
           onSelectedPlace(
-            place.name,
+            place.name || '',
             place.address_components
-              .map((item: { long_name: string }) => item.long_name)
-              .join(' '),
+              ?.map((item: { long_name: string }) => item.long_name)
+              .join(' ') || '',
           );
         }
         console.log('place ', place);
@@ -73,10 +72,7 @@ export default function Map(props: MapProps) {
         onLoad={(autocomplete) => {
           console.log('Autocomplete loaded:', autocomplete);
           if (autocompleteRef.current) {
-            autocompleteRef.current = {
-              ...autocomplete,
-              children: <div></div>,
-            };
+            autocompleteRef.current = autocomplete;
           }
         }}
         onPlaceChanged={handlePlaceChanged}
