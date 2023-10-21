@@ -71,9 +71,7 @@ export default function Map(props: MapProps) {
       <Autocomplete
         onLoad={(autocomplete) => {
           console.log('Autocomplete loaded:', autocomplete);
-          if (autocompleteRef.current) {
-            autocompleteRef.current = autocomplete;
-          }
+          autocompleteRef.current = autocomplete;
         }}
         onPlaceChanged={handlePlaceChanged}
         options={{ fields: ['address_components', 'geometry', 'name'] }}
