@@ -6,6 +6,9 @@ import { TCityResponse } from '../../regions/cities/entities/response';
 
 export type TGreenPlaceParams = TDefaultParams<TGreenPlaceResponse> & {
   search?: string;
+  provinceId?: TProvinceResponse['id'];
+  cityId?: TCityResponse['id'];
+  districtId?: TDistrictResponse['id'];
 };
 
 export type TGreenPlacePayload = {

@@ -5,6 +5,8 @@ import { TCommunityResponse } from '../../communities/entities/response';
 
 export type TBasecampParams = TDefaultParams<TBasecampResponse> & {
   search?: string;
+  greenPlaceId?: TGreenPlaceResponse['id'];
+  communityId?: TCommunityResponse['id'];
 };
 
 export type TBasecampPayload = {

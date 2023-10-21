@@ -5,6 +5,8 @@ import { TGreenPlaceResponse } from '../../green-places/entities/response';
 
 export type TComplaintParams = TDefaultParams<TComplaintResponse> & {
   search?: string;
+  userId?: TUserResponse['id'];
+  greenPlaceId?: TGreenPlaceResponse['id'];
 };
 
 export type TComplaintPayload = {

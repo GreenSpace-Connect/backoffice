@@ -5,6 +5,8 @@ import { TCommunityResponse } from '../../communities/entities/response';
 
 export type TCommunityUserParams = TDefaultParams<TCommunityUserResponse> & {
   search?: string;
+  userId?: TUserResponse['id'];
+  communityId?: TCommunityResponse['id'];
 };
 
 export type TCommunityUserPayload = {

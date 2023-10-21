@@ -7,6 +7,10 @@ import { TProvinceResponse } from '../../regions/provinces/entities/response';
 
 export type TEventParams = TDefaultParams<TEventResponse> & {
   search?: string;
+  communityId?: TCommunityResponse['id'];
+  provinceId?: TProvinceResponse['id'];
+  cityId?: TCityResponse['id'];
+  districtId?: TDistrictResponse['id'];
 };
 
 export type TEventPayload = {

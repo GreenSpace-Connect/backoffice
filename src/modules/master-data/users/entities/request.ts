@@ -4,6 +4,7 @@ import { TRoleResponse } from '../../roles/entities/response';
 
 export type TUserParams = TDefaultParams<TUserResponse> & {
   search?: string;
+  roleId?: TRoleResponse['id'];
 };
 
 export type TUserPayload = {
