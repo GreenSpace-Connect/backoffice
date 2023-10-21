@@ -25,5 +25,5 @@ export type TEventPayload = {
   address: string;
   latitude: string;
   longitude: string;
-  schedule: string;
+  schedule: Date;
 };

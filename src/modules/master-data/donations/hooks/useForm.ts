@@ -1,35 +1,36 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import { TEventPaginateResponse, TEventResponse } from '../entities/response';
+import {
+  TDonationPaginateResponse,
+  TDonationResponse,
+} from '../entities/response';
 import { Form } from 'antd';
-import { TEventPayload } from '../entities/request';
-import { useCreateEvent, useDeleteEvent, useUpdateEvent } from './useQuery';
+import { TDonationPayload } from '../entities/request';
+import {
+  useCreateDonation,
+  useDeleteDonation,
+  useUpdateDonation,
+} from './useQuery';
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 import dayjs from 'dayjs';
 
-export const useEventForm = (
-  dataHook: TExpectQueryResult<TEventPaginateResponse>,
+export const useDonationForm = (
+  dataHook: TExpectQueryResult<TDonationPaginateResponse>,
 ) => {
-  const [form] = Form.useForm<TEventPayload>();
+  const [form] = Form.useForm<TDonationPayload>();
 
-  const setFields = (record: TEventResponse) => {
+  const setFields = (record: TDonationResponse) => {
     form.setFieldsValue({
       name: record.name,
       description: record.description,
-      communityId: record.community.id,
-      thumbnail: record.thumbnail,
-      schedule: dayjs(record.schedule),
-      placeName: record.placeName,
-      provinceId: record.province.id,
-      cityId: record.city.id,
-      districtId: record.district.id,
-      address: record.address,
-      latitude: record.latitude,
-      longitude: record.longitude,
+      eventId: record.event.id,
+      startDate: dayjs(record.startDate),
+      endDate: dayjs(record.endDate),
+      expectDonation: record.expectDonation,
     });
   };
 
-  const createMutation = useCreateEvent();
+  const createMutation = useCreateDonation();
   const onCreate = () => {
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -43,8 +44,8 @@ export const useEventForm = (
     });
   };
 
-  const updateMutation = useUpdateEvent();
-  const onUpdate = (id: TEventResponse['id']) => {
+  const updateMutation = useUpdateDonation();
+  const onUpdate = (id: TDonationResponse['id']) => {
     updateMutation.mutate(
       {
         id,
@@ -64,8 +65,8 @@ export const useEventForm = (
     );
   };
 
-  const deleteMutation = useDeleteEvent();
-  const onDelete = (id: TEventResponse['id']) => {
+  const deleteMutation = useDeleteDonation();
+  const onDelete = (id: TDonationResponse['id']) => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();

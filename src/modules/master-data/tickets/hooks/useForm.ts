@@ -14,6 +14,8 @@ export const useTicketForm = (
   const setFields = (record: TTicketResponse) => {
     form.setFieldsValue({
       name: record.name,
+      price: record.price,
+      eventId: record.event.id,
     });
   };
 
