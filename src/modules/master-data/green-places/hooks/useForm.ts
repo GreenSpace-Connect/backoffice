@@ -21,6 +21,7 @@ export const useGreenPlaceForm = (
   const setFields = (record: TGreenPlaceResponse) => {
     form.setFieldsValue({
       name: record.name,
+      description: record.description,
       provinceId: record.province.id,
       cityId: record.city.id,
       districtId: record.district.id,

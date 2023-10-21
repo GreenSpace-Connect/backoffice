@@ -13,6 +13,7 @@ export type TGreenPlaceParams = TDefaultParams<TGreenPlaceResponse> & {
 
 export type TGreenPlacePayload = {
   name: string;
+  description: string;
   provinceId: TProvinceResponse['id'];
   cityId: TCityResponse['id'];
   districtId: TDistrictResponse['id'];

@@ -51,6 +51,9 @@ export default function GreenPlaceForm(props: FormManagementProps) {
       <Form.Item label="Name" name="name" rules={[requiredRule]}>
         <Input placeholder="Name..." />
       </Form.Item>
+      <Form.Item label="Description" name="description" rules={[requiredRule]}>
+        <Input.TextArea placeholder="Description..." rows={5} />
+      </Form.Item>
       <Form.Item label="Province" name="provinceId" rules={[requiredRule]}>
         <ProvinceSelect
           onSelect={() => {

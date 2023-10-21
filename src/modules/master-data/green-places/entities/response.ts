@@ -6,6 +6,7 @@ import { TDistrictResponse } from '../../regions/districts/entities/response';
 export type TGreenPlaceResponse = {
   id: number;
   name: string;
+  description: string;
   address: string;
   latitude: string;
   longitude: string;
