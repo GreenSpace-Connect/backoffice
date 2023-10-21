@@ -22,7 +22,7 @@ export default function Map(props: MapProps) {
       lat: -6.2297401,
       lng: 106.7471174,
     });
-  const autocompleteRef = useRef<AutocompleteProps | null>(null);
+  const autocompleteRef = useRef<AutocompleteProps>();
 
   // load script for google map
   const { isLoaded } = useLoadScript({
@@ -72,7 +72,12 @@ export default function Map(props: MapProps) {
       <Autocomplete
         onLoad={(autocomplete) => {
           console.log('Autocomplete loaded:', autocomplete);
-          autocompleteRef.current = autocomplete;
+          if (autocompleteRef.current) {
+            autocompleteRef.current = {
+              ...autocomplete,
+              children: <div></div>,
+            };
+          }
         }}
         onPlaceChanged={handlePlaceChanged}
         options={{ fields: ['address_components', 'geometry', 'name'] }}
