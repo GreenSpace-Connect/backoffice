@@ -17,11 +17,15 @@ import Map from '@/components/cards/Map';
 import GreenPlaceSelect from '../../green-places/components/GreenPlaceSelect';
 import { useGetGreenPlaceDetails } from '../../green-places/hooks/useQuery';
 import { useEffect, useState } from 'react';
+import { OwnUpload } from '@/components/inputs/OwnUpload';
+import { FilePlace } from '@/modules/upload/constant';
 
 type FormManagementProps = FormProps<TEventPayload>;
 
 export default function EventForm(props: FormManagementProps) {
   const { form, ...rest } = props;
+
+  const watchForm = Form.useWatch<TEventPayload | undefined>([], form);
 
   const onChangeTab = (key: string) => {
     setActivedTab(key);
@@ -62,7 +66,11 @@ export default function EventForm(props: FormManagementProps) {
         <CommunitySelect />
       </Form.Item>
       <Form.Item label="Thumbnail Url" name="thumbnail" rules={[requiredRule]}>
-        <Input placeholder="Thumbnail Url..." />
+        <OwnUpload
+          filePlace={FilePlace.Events}
+          defaultFile={watchForm?.thumbnail}
+          onUploaded={(filename) => form?.setFieldValue('thumbnail', filename)}
+        />
       </Form.Item>
       <Form.Item label="Schedule" name="schedule" rules={[requiredRule]}>
         <DatePicker style={{ width: '100%' }} />
