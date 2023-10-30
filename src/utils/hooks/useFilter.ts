@@ -55,7 +55,7 @@ export const useTableFilter = <TParams, TResponse>(initParams?: TParams) => {
   const [params, setParams] = useState({
     ...paginationParams.params,
     ...sortParams.params,
-    ...initParams,
+    ...(initParams || ({} as TParams)),
   });
 
   const onChange = (key: keyof TParams, value: TParams[keyof TParams]) => {

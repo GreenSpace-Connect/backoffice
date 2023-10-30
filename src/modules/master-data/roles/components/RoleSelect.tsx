@@ -36,6 +36,7 @@ export default function RoleSelect(props: RoleSelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>

@@ -1,15 +1,14 @@
-import {
-  GlobalOutlined,
-  KeyOutlined,
-  PieChartOutlined,
-  UserOutlined,
-  UsergroupAddOutlined,
-} from '@ant-design/icons';
 import { Layout, Menu, Typography } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 
-export default function SideBar() {
+type SideBarProps = {
+  menus: MenuItemType[];
+};
+
+export default function SideBar(props: SideBarProps) {
+  const { menus } = props;
+
   const pathname = usePathname();
   const router = useRouter();
 
@@ -56,7 +55,7 @@ export default function SideBar() {
   );
 }
 
-function getItem(
+export function getItem(
   label: React.ReactNode,
   key: React.Key,
   icon?: React.ReactNode,
@@ -69,34 +68,3 @@ function getItem(
     label,
   } as MenuItemType;
 }
-
-const menus: MenuItemType[] = [
-  getItem('Dashboard', '/backoffice/dashboard', <PieChartOutlined />),
-  getItem('Region', '/backoffice/regions', <GlobalOutlined />, [
-    getItem('Provinces', '/backoffice/regions/provinces'),
-    getItem('Cities', '/backoffice/regions/cities'),
-    getItem('Districts', '/backoffice/regions/districts'),
-  ]),
-  getItem('Green Places', '/backoffice/green-places', <PieChartOutlined />),
-  getItem('Complaints', '/backoffice/complaints', <PieChartOutlined />),
-  getItem('Communities', '/backoffice/communities', <PieChartOutlined />),
-  getItem(
-    'Community Users',
-    '/backoffice/community-users',
-    <PieChartOutlined />,
-  ),
-  getItem('Basecamps', '/backoffice/basecamps', <PieChartOutlined />),
-  getItem('Events', '/backoffice/events', <PieChartOutlined />),
-  getItem('Tickets', '/backoffice/tickets', <PieChartOutlined />),
-  getItem('Donations', '/backoffice/donations', <PieChartOutlined />),
-  getItem('Comments', '/backoffice/comments', <PieChartOutlined />),
-  getItem(
-    'User Settings',
-    '/backoffice/user-settings',
-    <UsergroupAddOutlined />,
-    [
-      getItem('Roles', '/backoffice/user-settings/roles', <KeyOutlined />),
-      getItem('Users', '/backoffice/user-settings/users', <UserOutlined />),
-    ],
-  ),
-];

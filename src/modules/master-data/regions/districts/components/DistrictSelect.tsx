@@ -41,6 +41,7 @@ export default function DistrictSelect(props: DistrictSelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>

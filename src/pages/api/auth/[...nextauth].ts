@@ -1,10 +1,12 @@
-import { authSigninBackoffice } from '@/modules/auth/api';
+import { authSignin } from '@/modules/auth/api';
+import { chnageCommunityActived } from '@/services/redux/reducers/userReducer';
+import store from '@/services/redux/store';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: '/backoffice',
+    signIn: '/login',
   },
   session: {
     strategy: 'jwt',
@@ -21,19 +23,26 @@ export const authOptions: NextAuthOptions = {
         if (!credentials) return null;
 
         try {
-          const resp = await authSigninBackoffice({
+          const resp = await authSignin({
             email: credentials.email,
             password: credentials.password,
           });
+
+          if (resp.data.user?.community.length) {
+            store.dispatch(
+              chnageCommunityActived(resp.data.user.community[0].id),
+            );
+          }
 
           return {
             ...resp.data,
             id: String(resp.data.user?.id || ''),
           };
-        } catch (error) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
           console.log('Failed signin: ', error);
 
-          return null;
+          throw new Error(error.message);
         }
       },
     }),

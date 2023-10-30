@@ -9,9 +9,10 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const isTokenExists = !!token?.accessToken;
+
         if (req.nextUrl.pathname === '/backoffice') {
-          if (!isTokenExists) {
-            return true;
+          if (token?.user?.role.name !== 'admin') {
+            return false;
           }
         }
 
@@ -22,5 +23,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/backoffice/:path*'],
+  matcher: ['/backoffice/:path*', '/my-community/:path*'],
 };

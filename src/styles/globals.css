@@ -4,3 +4,33 @@ body {
   padding: 0;
   margin: 0;
 }
+
+/* Base styles for the container */
+.container {
+  width: 100%;
+  max-width: 1200px; /* Adjust the max width as needed */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Media query for smaller screens (e.g., tablets) */
+@media (max-width: 768px) {
+  .container {
+      padding: 10px;
+  }
+}
+
+/* Media query for even smaller screens (e.g., smartphones) */
+@media (max-width: 480px) {
+  .container {
+      padding: 5px;
+  }
+}
+
+
+/* Card */
+.event-card .ant-card-body,
+.greenspace-card .ant-card-body {
+  padding: 1rem
+}

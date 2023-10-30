@@ -1,3 +1,4 @@
+import store from '@/services/redux/store';
 import '@/styles/globals.css';
 import { ConfigProvider, ThemeConfig } from 'antd';
 import { NextPage } from 'next';
@@ -5,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,11 +27,14 @@ export default function App({
    */
   const theme: ThemeConfig = {
     components: {
-      Menu: {},
+      Collapse: {
+        headerPadding: '1rem 0 0',
+        contentPadding: 0,
+      },
     },
     token: {
       fontFamily: `'Poppins', sans-serif`,
-      colorPrimary: '#00b96b',
+      colorPrimary: '#03AB0E',
       fontSize: 12,
       borderRadius: 4,
     },
@@ -49,11 +54,13 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider theme={theme}>
-          {getLayout(<Component {...pageProps} />)}
-        </ConfigProvider>
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider theme={theme}>
+            {getLayout(<Component {...pageProps} />)}
+          </ConfigProvider>
+        </QueryClientProvider>
+      </Provider>
     </SessionProvider>
   );
 }

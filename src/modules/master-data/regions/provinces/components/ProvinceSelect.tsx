@@ -36,6 +36,7 @@ export default function ProvinceSelect(props: ProvinceSelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>

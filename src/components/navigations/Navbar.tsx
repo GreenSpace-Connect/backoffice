@@ -1,6 +1,6 @@
-import { Avatar, Dropdown, Layout } from 'antd';
-import { signOut, useSession } from 'next-auth/react';
-import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
+import { useSession } from 'next-auth/react';
+import AuthDropdown from '../dropdowns/AuthDropdown';
 
 export default function NavBar() {
   const session = useSession();
@@ -18,44 +18,7 @@ export default function NavBar() {
             height: '100%',
           }}
         >
-          {session.status === 'authenticated' && (
-            <Dropdown
-              menu={{
-                items: [
-                  {
-                    key: 'setting',
-                    label: 'Setting',
-                    icon: <SettingOutlined />,
-                    style: {
-                      width: 150,
-                    },
-                  },
-                  {
-                    key: 'signOut',
-                    label: 'Sign Out',
-                    icon: <LogoutOutlined />,
-                    style: {
-                      width: 150,
-                    },
-                    onClick: () => signOut(),
-                  },
-                ],
-              }}
-              placement="bottomRight"
-            >
-              <Avatar
-                style={{
-                  backgroundColor: '#f56a00',
-                  verticalAlign: 'middle',
-                  cursor: 'pointer',
-                }}
-                size="default"
-                gap={4}
-              >
-                {session.data.user?.fullname[0]}
-              </Avatar>
-            </Dropdown>
-          )}
+          {session.status === 'authenticated' && <AuthDropdown />}
         </div>
       </Layout.Header>
     </>

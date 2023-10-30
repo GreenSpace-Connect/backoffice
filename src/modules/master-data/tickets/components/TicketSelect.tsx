@@ -36,6 +36,7 @@ export default function TicketSelect(props: TicketSelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>

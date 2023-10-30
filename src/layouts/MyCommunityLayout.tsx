@@ -1,48 +1,15 @@
 import NavBar from '@/components/navigations/Navbar';
 import SideBar, { getItem } from '@/components/navigations/Sider';
-import {
-  PieChartOutlined,
-  GlobalOutlined,
-  UsergroupAddOutlined,
-  KeyOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { PieChartOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Space, Typography } from 'antd';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import Link from 'next/link';
 
 const menus: MenuItemType[] = [
-  getItem('Dashboard', '/backoffice/dashboard', <PieChartOutlined />),
-  getItem('Region', '/backoffice/regions', <GlobalOutlined />, [
-    getItem('Provinces', '/backoffice/regions/provinces'),
-    getItem('Cities', '/backoffice/regions/cities'),
-    getItem('Districts', '/backoffice/regions/districts'),
-  ]),
-  getItem('Green Places', '/backoffice/green-places', <PieChartOutlined />),
-  getItem('Complaints', '/backoffice/complaints', <PieChartOutlined />),
-  getItem('Communities', '/backoffice/communities', <PieChartOutlined />),
-  getItem(
-    'Community Users',
-    '/backoffice/community-users',
-    <PieChartOutlined />,
-  ),
-  getItem('Basecamps', '/backoffice/basecamps', <PieChartOutlined />),
-  getItem('Events', '/backoffice/events', <PieChartOutlined />),
-  getItem('Tickets', '/backoffice/tickets', <PieChartOutlined />),
-  getItem('Donations', '/backoffice/donations', <PieChartOutlined />),
-  getItem('Comments', '/backoffice/comments', <PieChartOutlined />),
-  getItem(
-    'User Settings',
-    '/backoffice/user-settings',
-    <UsergroupAddOutlined />,
-    [
-      getItem('Roles', '/backoffice/user-settings/roles', <KeyOutlined />),
-      getItem('Users', '/backoffice/user-settings/users', <UserOutlined />),
-    ],
-  ),
+  getItem('My Communities', '/my-community', <PieChartOutlined />),
 ];
 
-type BackofficeLayoutType = {
+type MyCommunityLayoutType = {
   children: React.ReactNode;
   title: string;
   breadcrumbs?: {
@@ -52,7 +19,7 @@ type BackofficeLayoutType = {
   extra?: React.ReactNode;
 };
 
-export default function BackofficeLayout(props: BackofficeLayoutType) {
+export default function MyCommunityLayout(props: MyCommunityLayoutType) {
   const { children, title, breadcrumbs, extra } = props;
 
   return (

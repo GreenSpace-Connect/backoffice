@@ -36,6 +36,7 @@ export default function EventSelect(props: EventSelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>

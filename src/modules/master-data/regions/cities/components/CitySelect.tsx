@@ -41,6 +41,7 @@ export default function CitySelect(props: CitySelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>

@@ -36,6 +36,7 @@ export default function GreenPlaceSelect(props: GreenPlaceSelectProps) {
         }))}
         loading={dataHook.isFetching}
         onSearch={debounce(setSearch, 1000)}
+        allowClear
         {...rest}
       />
     </>
