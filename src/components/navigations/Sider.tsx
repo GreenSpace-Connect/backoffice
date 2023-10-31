@@ -22,7 +22,7 @@ export default function SideBar(props: SideBarProps) {
 
   return (
     <>
-      <Layout.Sider collapsedWidth={0} breakpoint="sm">
+      <Layout.Sider collapsedWidth={0} breakpoint="sm" width={250}>
         <div style={{ padding: '0 .5rem' }}>
           <Typography.Title
             level={4}

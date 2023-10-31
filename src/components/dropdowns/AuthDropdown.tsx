@@ -1,10 +1,7 @@
-import { chnageCommunityActived } from '@/services/redux/reducers/userReducer';
-import store from '@/services/redux/store';
 import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { Dropdown, Avatar, DropdownProps } from 'antd';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 export default function AuthDropdown() {
   const session = useSession();
@@ -26,20 +23,13 @@ export default function AuthDropdown() {
 
   if (session.data?.user?.community.length) {
     menu.items?.push({
-      key: 'my-community',
+      key: 'member',
       label: 'My Community',
       icon: <SettingOutlined />,
       style: {
         width: 150,
       },
-      children: session.data?.user?.community.map((item) => ({
-        key: item.id,
-        label: item.name,
-        onClick: () => {
-          store.dispatch(chnageCommunityActived(item.id));
-          router.push(`/my-community/${item.id}`);
-        },
-      })),
+      onClick: () => router.push(`/member`),
     });
   }
 
@@ -54,14 +44,6 @@ export default function AuthDropdown() {
       onClick: () => router.push('/backoffice'),
     });
   }
-
-  useEffect(() => {
-    if (session.data?.user?.community.length) {
-      store.dispatch(
-        chnageCommunityActived(session.data?.user?.community[0].id),
-      );
-    }
-  }, []);
 
   return (
     <Dropdown

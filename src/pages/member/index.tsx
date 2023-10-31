@@ -1,9 +1,7 @@
 import CommunityCard from '@/components/cards/CommunityCard';
 import ListColum from '@/components/layouts/ListColumn';
-import MyCommunityLayout from '@/layouts/MyCommunityLayout';
+import MemberLayout from '@/layouts/MemberLayout';
 import { TCommentResponse } from '@/modules/master-data/comments/entities/response';
-import { chnageCommunityActived } from '@/services/redux/reducers/userReducer';
-import store from '@/services/redux/store';
 import { Row } from 'antd';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -13,13 +11,11 @@ export default function MyCommunityPage() {
   const router = useRouter();
 
   const redirectCommunity = (id: TCommentResponse['id']) => {
-    router.push(`/my-community/${id}`);
-    store.dispatch(chnageCommunityActived(id));
+    router.push(`/member/my-communities/${id}`);
   };
 
   return (
-    <MyCommunityLayout title="My Community">
-      {JSON.stringify(store.getState().userActived)}
+    <MemberLayout title="My Community">
       <Row gutter={16}>
         {session.data?.user?.community.map((item) => (
           <ListColum key={item.id}>
@@ -29,6 +25,6 @@ export default function MyCommunityPage() {
           </ListColum>
         ))}
       </Row>
-    </MyCommunityLayout>
+    </MemberLayout>
   );
 }

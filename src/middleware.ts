@@ -23,5 +23,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/backoffice/:path*', '/my-community/:path*'],
+  matcher: ['/backoffice/:path*', '/member/:path*'],
 };

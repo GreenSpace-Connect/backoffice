@@ -1,6 +1,4 @@
 import { authSignin } from '@/modules/auth/api';
-import { chnageCommunityActived } from '@/services/redux/reducers/userReducer';
-import store from '@/services/redux/store';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
@@ -27,12 +25,6 @@ export const authOptions: NextAuthOptions = {
             email: credentials.email,
             password: credentials.password,
           });
-
-          if (resp.data.user?.community.length) {
-            store.dispatch(
-              chnageCommunityActived(resp.data.user.community[0].id),
-            );
-          }
 
           return {
             ...resp.data,

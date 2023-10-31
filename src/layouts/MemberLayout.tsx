@@ -1,15 +1,16 @@
 import NavBar from '@/components/navigations/Navbar';
 import SideBar, { getItem } from '@/components/navigations/Sider';
-import { PieChartOutlined } from '@ant-design/icons';
+import { PieChartOutlined, UserOutlined } from '@ant-design/icons';
 import { Breadcrumb, Layout, Space, Typography } from 'antd';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import Link from 'next/link';
 
 const menus: MenuItemType[] = [
-  getItem('My Communities', '/my-community', <PieChartOutlined />),
+  getItem('My Communities', '/member', <PieChartOutlined />),
+  getItem('My Profile', '/member/profile', <UserOutlined />),
 ];
 
-type MyCommunityLayoutType = {
+type MemberLayoutType = {
   children: React.ReactNode;
   title: string;
   breadcrumbs?: {
@@ -19,7 +20,7 @@ type MyCommunityLayoutType = {
   extra?: React.ReactNode;
 };
 
-export default function MyCommunityLayout(props: MyCommunityLayoutType) {
+export default function MemberLayout(props: MemberLayoutType) {
   const { children, title, breadcrumbs, extra } = props;
 
   return (
