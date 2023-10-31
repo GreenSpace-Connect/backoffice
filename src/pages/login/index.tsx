@@ -6,7 +6,7 @@ import { Button, Form, Input, Space, Typography } from 'antd';
 import Link from 'next/link';
 
 export default function LoginPage() {
-  const { redirectAuth, form, onLogin } = useAuthHelp();
+  const { redirectAuth, form, loadingLogin, onLogin } = useAuthHelp();
 
   redirectAuth();
 
@@ -32,7 +32,12 @@ export default function LoginPage() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
+              loading={loadingLogin}
+            >
               Sign in
             </Button>
           </Form.Item>

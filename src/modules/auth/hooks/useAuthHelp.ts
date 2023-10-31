@@ -5,6 +5,7 @@ import { Form } from 'antd';
 import { useAuthSignup } from './useQuery';
 import { failedMessage, successMessage } from '@/services/antd/message';
 import { setErrorForm } from '@/services/antd/form';
+import { useState } from 'react';
 
 export const useAuthHelp = () => {
   const session = useSession();
@@ -22,7 +23,10 @@ export const useAuthHelp = () => {
 
   const [form] = Form.useForm();
 
+  const [loadingLogin, setLoadingLogin] = useState(false);
   const onLogin = async (values: TAuthSigninPayload) => {
+    setLoadingLogin(true);
+
     const result = await signIn('credentials', {
       email: values.email,
       password: values.password,
@@ -32,6 +36,8 @@ export const useAuthHelp = () => {
     if (result?.ok) {
       redirectAuth();
     }
+
+    setLoadingLogin(false);
   };
 
   const authSignupRegister = useAuthSignup();
@@ -51,5 +57,12 @@ export const useAuthHelp = () => {
     });
   };
 
-  return { redirectAuth, form, onLogin, authSignupRegister, onRegister };
+  return {
+    redirectAuth,
+    form,
+    loadingLogin,
+    onLogin,
+    authSignupRegister,
+    onRegister,
+  };
 };
