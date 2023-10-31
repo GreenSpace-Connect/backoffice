@@ -14,7 +14,7 @@ import { Button, Card, Space, Typography } from 'antd';
 
 export default function CommunitiesPage() {
   const filterHook = useTableFilter<TCommunityParams, TCommunityResponse>();
-  const provinceDataHook = useGetCommunities({
+  const communityDataHook = useGetCommunities({
     params: filterHook.params,
   });
 
@@ -27,7 +27,7 @@ export default function CommunitiesPage() {
     onUpdate,
     deleteMutation,
     onDelete,
-  } = useCommunityForm(provinceDataHook);
+  } = useCommunityForm(communityDataHook);
 
   return (
     <BackofficeLayout
@@ -61,9 +61,9 @@ export default function CommunitiesPage() {
         <Datatable
           onSearch={(value) => filterHook.onChange('search', value)}
           tableProps={{
-            dataSource: provinceDataHook.data?.items,
-            loading: provinceDataHook.isFetching,
-            pagination: provinceDataHook.data?.meta,
+            dataSource: communityDataHook.data?.items,
+            loading: communityDataHook.isFetching,
+            pagination: communityDataHook.data?.meta,
             onChange: filterHook.pagination.onChange,
             columns: [
               getnumberColumn<TCommunityResponse>(),

@@ -7,3 +7,5 @@ export type TAuthResponse = {
 };
 
 export type TAuthSigninResponse = TResponseData<TAuthResponse>;
+
+export type TAuthSignupResponse = TResponseData<TUserResponse>;

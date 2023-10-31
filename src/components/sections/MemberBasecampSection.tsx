@@ -48,12 +48,15 @@ export default function MemberBasecampSection(
         extra={
           <Space>
             <AsyncModal
-              title="Update"
+              title="Insert"
               button={
                 <Button
                   type="primary"
                   icon={<PlusOutlined />}
-                  onClick={() => form.resetFields()}
+                  onClick={() => {
+                    form.resetFields();
+                    form?.setFieldValue('communityId', communityId);
+                  }}
                 >
                   Add Item
                 </Button>

@@ -28,12 +28,6 @@ type FormManagementProps = FormProps<TEventPayload> & {
 export default function EventForm(props: FormManagementProps) {
   const { form, communityId, ...rest } = props;
 
-  useEffect(() => {
-    if (communityId) {
-      form?.setFieldValue('communityId', communityId);
-    }
-  }, [communityId]);
-
   const watchForm = Form.useWatch<TEventPayload | undefined>([], form);
 
   const onChangeTab = (key: string) => {
@@ -71,11 +65,14 @@ export default function EventForm(props: FormManagementProps) {
       <Form.Item label="Description" name="description" rules={[requiredRule]}>
         <Input.TextArea placeholder="Description..." rows={10} />
       </Form.Item>
-      {!communityId && (
-        <Form.Item label="Community" name="communityId" rules={[requiredRule]}>
-          <CommunitySelect />
-        </Form.Item>
-      )}
+      <Form.Item
+        label="Community"
+        name="communityId"
+        rules={[requiredRule]}
+        hidden={!!communityId}
+      >
+        <CommunitySelect />
+      </Form.Item>
       <Form.Item label="Thumbnail Url" name="thumbnail" rules={[requiredRule]}>
         <OwnUpload
           filePlace={FilePlace.Events}

@@ -1,4 +1,8 @@
-import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Dropdown, Avatar, DropdownProps } from 'antd';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -17,6 +21,15 @@ export default function AuthDropdown() {
           width: 150,
         },
         onClick: () => signOut(),
+      },
+      {
+        key: 'my-profile',
+        label: 'My Profile',
+        icon: <UserOutlined />,
+        style: {
+          width: 150,
+        },
+        onClick: () => router.push('/member/my-profile'),
       },
     ],
   };

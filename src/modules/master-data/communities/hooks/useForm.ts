@@ -1,8 +1,5 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import {
-  TCommunityPaginateResponse,
-  TCommunityResponse,
-} from '../entities/response';
+import { TCommunityResponse } from '../entities/response';
 import { Form } from 'antd';
 import { TCommunityPayload } from '../entities/request';
 import {
@@ -13,8 +10,8 @@ import {
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useCommunityForm = (
-  dataHook?: TExpectQueryResult<TCommunityPaginateResponse>,
+export const useCommunityForm = <Response>(
+  dataHook?: TExpectQueryResult<Response>,
 ) => {
   const [form] = Form.useForm<TCommunityPayload>();
 

@@ -12,6 +12,7 @@ import { Space, Button, Typography } from 'antd';
 import AsyncModal from '../modals/AsyncModal';
 import TitleNavigation from '../navigations/TitleNavigation';
 import Datatable from '../tables/Datatable';
+import { useSession } from 'next-auth/react';
 
 type MemberCommunityUserSectionProps = {
   communityId: TCommunityResponse['id'];
@@ -21,6 +22,8 @@ export default function MemberCommunityUserSection(
   props: MemberCommunityUserSectionProps,
 ) {
   const { communityId } = props;
+
+  const session = useSession();
 
   const filterHook = useTableFilter<
     TCommunityUserParams,
@@ -43,12 +46,15 @@ export default function MemberCommunityUserSection(
         extra={
           <Space>
             <AsyncModal
-              title="Update"
+              title="Insert"
               button={
                 <Button
                   type="primary"
                   icon={<PlusOutlined />}
-                  onClick={() => form.resetFields()}
+                  onClick={() => {
+                    form.resetFields();
+                    form?.setFieldValue('communityId', communityId);
+                  }}
                 >
                   Add Item
                 </Button>
@@ -56,7 +62,11 @@ export default function MemberCommunityUserSection(
               mutation={createMutation}
               onSubmit={form.submit}
             >
-              <CommunityUserForm form={form} onFinish={onCreate} />
+              <CommunityUserForm
+                form={form}
+                communityId={communityId}
+                onFinish={onCreate}
+              />
             </AsyncModal>
           </Space>
         }
@@ -87,18 +97,20 @@ export default function MemberCommunityUserSection(
               fixed: 'right',
               render: (_, record) => (
                 <Space>
-                  <Button
-                    icon={<DeleteOutlined />}
-                    size="small"
-                    type="link"
-                    danger
-                    loading={deleteMutation.isLoading}
-                    onClick={() => {
-                      confirmDelete({
-                        onOk: () => onDelete(record.id),
-                      });
-                    }}
-                  />
+                  {record.user.id !== session.data?.user?.id && (
+                    <Button
+                      icon={<DeleteOutlined />}
+                      size="small"
+                      type="link"
+                      danger
+                      loading={deleteMutation.isLoading}
+                      onClick={() => {
+                        confirmDelete({
+                          onOk: () => onDelete(record.id),
+                        });
+                      }}
+                    />
+                  )}
                 </Space>
               ),
             },

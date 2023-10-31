@@ -42,7 +42,7 @@ export default function CommunityUsersPage() {
       extra={
         <Space>
           <AsyncModal
-            title="Update"
+            title="Insert"
             button={
               <Button
                 type="primary"

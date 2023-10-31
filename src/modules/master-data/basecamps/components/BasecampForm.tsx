@@ -4,7 +4,6 @@ import { requiredRule } from '@/services/antd/validation';
 import CommunitySelect from '../../communities/components/CommunitySelect';
 import GreenPlaceSelect from '../../green-places/components/GreenPlaceSelect';
 import { TCommunityResponse } from '../../communities/entities/response';
-import { useEffect } from 'react';
 
 type FormManagementProps = FormProps<TBasecampPayload> & {
   communityId?: TCommunityResponse['id'];
@@ -13,19 +12,16 @@ type FormManagementProps = FormProps<TBasecampPayload> & {
 export default function BasecampForm(props: FormManagementProps) {
   const { form, communityId, ...rest } = props;
 
-  useEffect(() => {
-    if (communityId) {
-      form?.setFieldValue('communityId', communityId);
-    }
-  }, [communityId]);
-
   return (
     <Form layout="vertical" form={form} {...rest}>
-      {!communityId && (
-        <Form.Item label="Community" name="communityId" rules={[requiredRule]}>
-          <CommunitySelect />
-        </Form.Item>
-      )}
+      <Form.Item
+        label="Community"
+        name="communityId"
+        rules={[requiredRule]}
+        hidden={!!communityId}
+      >
+        <CommunitySelect />
+      </Form.Item>
       <Form.Item label="Green Place" name="greenPlaceId" rules={[requiredRule]}>
         <GreenPlaceSelect />
       </Form.Item>

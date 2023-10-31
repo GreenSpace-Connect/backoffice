@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const menus: MenuItemType[] = [
   getItem('My Communities', '/member', <PieChartOutlined />),
-  getItem('My Profile', '/member/profile', <UserOutlined />),
+  getItem('My Profile', '/member/my-profile', <UserOutlined />),
 ];
 
 type MemberLayoutType = {
