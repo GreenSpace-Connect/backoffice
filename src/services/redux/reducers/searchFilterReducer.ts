@@ -12,7 +12,6 @@ export const searchFilterReducer = createSlice({
   reducers: {
     changeSearchFilter: (state, actions: PayloadAction<InitialStateProps>) => {
       return {
-        ...state,
         ...actions.payload,
       };
     },

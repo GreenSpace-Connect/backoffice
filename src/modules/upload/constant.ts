@@ -3,6 +3,7 @@ export const UPLOAD_ENDPOINT = '/v1.0.0/upload/file';
 export enum FilePlace {
   Events = 'events',
   Avatars = 'avatars',
+  Communities = 'communities',
 }
 
 export enum FileType {

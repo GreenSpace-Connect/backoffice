@@ -7,6 +7,8 @@ export type TUserResponse = {
   fullname: string;
   email: string;
   role: TRoleResponse;
+  photo: string;
+  phoneNumber: string;
   community: TCommunityResponse[];
   createdAt: string;
   updatedAt: string;

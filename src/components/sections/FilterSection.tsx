@@ -1,13 +1,11 @@
 'use client';
 
 import CitySelect from '@/modules/master-data/regions/cities/components/CitySelect';
-import DistrictSelect from '@/modules/master-data/regions/districts/components/DistrictSelect';
 import ProvinceSelect from '@/modules/master-data/regions/provinces/components/ProvinceSelect';
 import { changeSearchFilter } from '@/services/redux/reducers/searchFilterReducer';
 import { useAppDispatch, useAppSelector } from '@/services/redux/store';
 import { removeUndefinedProperties } from '@/utils/helpers/object.helper';
 import { CollapseProps, Typography, Form, Collapse } from 'antd';
-import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -18,26 +16,22 @@ export default function FilterSection() {
   const dispatch = useAppDispatch();
 
   const onFilter = (key: string, value: string) => {
-    console.log({
+    const state = {
       ...router.query,
       [key]: value,
-    });
+    };
+    if (key === 'provinceId') {
+      delete state.cityId;
+    }
+
     router.push({
       pathname: '/search',
-      query: removeUndefinedProperties({
-        ...router.query,
-        [key]: value,
-      }),
+      query: removeUndefinedProperties(state),
     });
   };
 
-  const searchParams = useSearchParams();
-  const queryParams = Object.fromEntries(searchParams.entries());
-
   useEffect(() => {
-    if (queryParams) {
-      dispatch(changeSearchFilter(router.query));
-    }
+    dispatch(changeSearchFilter(router.query));
   }, [router.query]);
 
   const items: CollapseProps['items'] = [
@@ -60,14 +54,6 @@ export default function FilterSection() {
               onChange={(value) => onFilter('cityId', value)}
             />
           </Form.Item>
-          <Form.Item label="Lokasi">
-            <DistrictSelect
-              value={filter.districtId ? +filter.districtId : null}
-              disabled={!filter.cityId}
-              cityId={filter.cityId}
-              onChange={(value) => onFilter('districtId', value)}
-            />
-          </Form.Item>
         </Form>
       ),
     },
@@ -85,8 +71,6 @@ export default function FilterSection() {
         expandIconPosition="end"
         items={items}
       />
-
-      {JSON.stringify(filter)}
     </div>
   );
 }

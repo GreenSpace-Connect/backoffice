@@ -10,4 +10,5 @@ export type TCommunityParams = TDefaultParams<TCommunityResponse> & {
 export type TCommunityPayload = {
   name: string;
   picId: TUserResponse['id'];
+  photo: string;
 };

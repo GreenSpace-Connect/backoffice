@@ -12,4 +12,6 @@ export type TUserPayload = {
   password: string;
   fullname: string;
   roleId: TRoleResponse['id'];
+  photo: string;
+  phoneNumber: string;
 };

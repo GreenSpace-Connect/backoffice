@@ -1,6 +1,7 @@
 import { Layout, Menu, Typography } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
+import Link from 'next/link';
 
 type SideBarProps = {
   menus: MenuItemType[];
@@ -24,20 +25,22 @@ export default function SideBar(props: SideBarProps) {
     <>
       <Layout.Sider collapsedWidth={0} breakpoint="sm" width={250}>
         <div style={{ padding: '0 .5rem' }}>
-          <Typography.Title
-            level={4}
-            style={{
-              color: '#ffffff',
-              height: '64px',
-              margin: 0,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: '.5rem',
-            }}
-          >
-            GS Connect
-          </Typography.Title>
+          <Link href="/">
+            <Typography.Title
+              level={4}
+              style={{
+                color: '#ffffff',
+                height: '64px',
+                margin: 0,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '.5rem',
+              }}
+            >
+              GS Connect
+            </Typography.Title>
+          </Link>
 
           <Menu
             theme="dark"

@@ -16,6 +16,8 @@ export const useUserForm = (
       email: record.email,
       fullname: record.fullname,
       roleId: record.role.id,
+      phoneNumber: record.phoneNumber,
+      photo: record.photo,
     });
   };
 

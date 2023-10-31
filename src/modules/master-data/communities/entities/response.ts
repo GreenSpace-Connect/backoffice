@@ -3,6 +3,7 @@ import { TUserResponse } from '../../users/entities/response';
 
 export type TCommunityResponse = {
   id: number;
+  photo: string;
   name: string;
   pic: TUserResponse;
   createdAt: string;

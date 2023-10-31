@@ -14,7 +14,7 @@ import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
 export const useCommunityForm = (
-  dataHook: TExpectQueryResult<TCommunityPaginateResponse>,
+  dataHook?: TExpectQueryResult<TCommunityPaginateResponse>,
 ) => {
   const [form] = Form.useForm<TCommunityPayload>();
 
@@ -22,6 +22,7 @@ export const useCommunityForm = (
     form.setFieldsValue({
       name: record.name,
       picId: record.pic.id,
+      photo: record.photo,
     });
   };
 
@@ -30,7 +31,7 @@ export const useCommunityForm = (
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: (data) => {
         failedMessage();
@@ -49,7 +50,7 @@ export const useCommunityForm = (
       {
         onSuccess: () => {
           successMessage();
-          dataHook.refetch();
+          dataHook?.refetch();
         },
         onError: (data) => {
           failedMessage();
@@ -65,7 +66,7 @@ export const useCommunityForm = (
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: () => {
         failedMessage();

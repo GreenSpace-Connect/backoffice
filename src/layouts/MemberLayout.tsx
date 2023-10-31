@@ -12,7 +12,7 @@ const menus: MenuItemType[] = [
 
 type MemberLayoutType = {
   children: React.ReactNode;
-  title: string;
+  title?: React.ReactNode;
   breadcrumbs?: {
     title: string;
     href?: string;
@@ -49,7 +49,14 @@ export default function MemberLayout(props: MemberLayoutType) {
             }}
             align="center"
           >
-            <Typography.Title style={{ margin: 0 }}>{title}</Typography.Title>
+            {title && (
+              <div>
+                <Typography.Title style={{ margin: 0 }}>
+                  {title}
+                </Typography.Title>
+              </div>
+            )}
+
             <div>{extra}</div>
           </Space>
 
