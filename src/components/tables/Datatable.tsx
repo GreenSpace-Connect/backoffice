@@ -25,6 +25,7 @@ export default function Datatable<Item extends { id: unknown }>(
         )}
       </Space>
       <Table
+        rowKey={(record) => record?.id?.toString() || ''}
         {...tableProps}
         pagination={{
           ...tableProps.pagination,

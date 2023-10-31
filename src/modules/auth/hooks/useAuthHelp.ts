@@ -24,8 +24,10 @@ export const useAuthHelp = () => {
   const [form] = Form.useForm();
 
   const [loadingLogin, setLoadingLogin] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const onLogin = async (values: TAuthSigninPayload) => {
     setLoadingLogin(true);
+    setErrorMessage('');
 
     const result = await signIn('credentials', {
       email: values.email,
@@ -35,6 +37,10 @@ export const useAuthHelp = () => {
 
     if (result?.ok) {
       redirectAuth();
+    }
+
+    if (result?.error) {
+      setErrorMessage(result?.error);
     }
 
     setLoadingLogin(false);
@@ -61,6 +67,7 @@ export const useAuthHelp = () => {
     redirectAuth,
     form,
     loadingLogin,
+    errorMessage,
     onLogin,
     authSignupRegister,
     onRegister,

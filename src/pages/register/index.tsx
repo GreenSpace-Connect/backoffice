@@ -6,7 +6,8 @@ import { Button, Form, Input, Space, Typography } from 'antd';
 import Link from 'next/link';
 
 export default function RegisterPage() {
-  const { redirectAuth, form, authSignupRegister, onRegister } = useAuthHelp();
+  const { redirectAuth, form, authSignupRegister, loadingLogin, onRegister } =
+    useAuthHelp();
 
   redirectAuth();
 
@@ -44,7 +45,7 @@ export default function RegisterPage() {
               type="primary"
               htmlType="submit"
               block
-              loading={authSignupRegister.isLoading}
+              loading={authSignupRegister.isLoading || loadingLogin}
             >
               Register
             </Button>

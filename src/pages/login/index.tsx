@@ -6,7 +6,8 @@ import { Button, Form, Input, Space, Typography } from 'antd';
 import Link from 'next/link';
 
 export default function LoginPage() {
-  const { redirectAuth, form, loadingLogin, onLogin } = useAuthHelp();
+  const { redirectAuth, form, loadingLogin, errorMessage, onLogin } =
+    useAuthHelp();
 
   redirectAuth();
 
@@ -30,6 +31,8 @@ export default function LoginPage() {
           <Form.Item name="password" rules={[requiredRule]}>
             <Input.Password prefix={<LockOutlined />} placeholder="Password" />
           </Form.Item>
+
+          <Typography.Text type="danger">{errorMessage}</Typography.Text>
 
           <Form.Item>
             <Button
