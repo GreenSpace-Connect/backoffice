@@ -29,7 +29,17 @@ const menus: MenuItemType[] = [
   getItem('Basecamps', '/backoffice/basecamps', <PieChartOutlined />),
   getItem('Events', '/backoffice/events', <PieChartOutlined />),
   getItem('Tickets', '/backoffice/tickets', <PieChartOutlined />),
+  getItem(
+    'Ticket Transactions',
+    '/backoffice/ticket-transactions',
+    <PieChartOutlined />,
+  ),
   getItem('Donations', '/backoffice/donations', <PieChartOutlined />),
+  getItem(
+    'Donation Transactions',
+    '/backoffice/donation-transactions',
+    <PieChartOutlined />,
+  ),
   getItem('Comments', '/backoffice/comments', <PieChartOutlined />),
   getItem(
     'User Settings',
