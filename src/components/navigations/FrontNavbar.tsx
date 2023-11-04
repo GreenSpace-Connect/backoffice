@@ -1,13 +1,12 @@
 'use client';
 
-import { changeSearchFilter } from '@/services/redux/reducers/searchFilterReducer';
-import { useAppDispatch, useAppSelector } from '@/services/redux/store';
 import { removeUndefinedProperties } from '@/utils/helpers/object.helper';
 import { Button, Form, Input, Layout, Typography, theme } from 'antd';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import AuthDropdown from '../dropdowns/AuthDropdown';
+import { useEffect, useState } from 'react';
 
 export default function FrontNavbar() {
   const {
@@ -16,9 +15,6 @@ export default function FrontNavbar() {
 
   const router = useRouter();
   const session = useSession();
-
-  const search = useAppSelector((state) => state.searchFilter.search);
-  const dispatch = useAppDispatch();
 
   const onSubmit = () => {
     router.push({
@@ -29,6 +25,14 @@ export default function FrontNavbar() {
       }),
     });
   };
+
+  useEffect(() => {
+    if (router.query.search) {
+      setSearch(String(router.query.search));
+    }
+  }, [router.query]);
+
+  const [search, setSearch] = useState('');
 
   return (
     <Layout.Header
@@ -59,11 +63,7 @@ export default function FrontNavbar() {
           placeholder="Cari di GreenSpace Connect"
           value={search}
           onChange={(e) => {
-            dispatch(
-              changeSearchFilter({
-                search: e.target.value,
-              }),
-            );
+            setSearch(e.target.value);
           }}
           style={{
             maxWidth: '500px',

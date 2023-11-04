@@ -1,17 +1,17 @@
 import { TEventResponse } from '@/modules/master-data/events/entities/response';
-import { Avatar, Card, Space, Typography } from 'antd';
+import { Avatar, Card, CardProps, Space, Typography } from 'antd';
 import dayjs from 'dayjs';
 
-type EventCardProps = {
+type EventCardProps = CardProps & {
   thumbnail?: TEventResponse['thumbnail'];
   name?: TEventResponse['name'];
   schedule?: TEventResponse['schedule'];
-  communityName?: TEventResponse['community']['name'];
+  community?: TEventResponse['community'];
   loading?: boolean;
 };
 
 export default function EventCard(props: EventCardProps) {
-  const { name, communityName, schedule, thumbnail, loading } = props;
+  const { name, community, schedule, thumbnail, loading, ...args } = props;
 
   return (
     <Card
@@ -25,22 +25,26 @@ export default function EventCard(props: EventCardProps) {
       }
       actions={[
         <Space key={1}>
-          <Avatar />
+          <Avatar src={community?.photo} />
           <Typography.Text style={{ fontSize: '10px' }}>
-            {communityName}
+            {community?.name}
           </Typography.Text>
         </Space>,
       ]}
       hoverable
+      {...args}
     >
-      <Space direction="vertical">
-        <Typography.Text strong style={{ cursor: 'pointer' }}>
-          {name}
-        </Typography.Text>
-        <Typography.Text type="secondary">
-          {dayjs(schedule).format('DD MMM YYYY')}
-        </Typography.Text>
-      </Space>
+      <Typography.Paragraph
+        strong
+        style={{ cursor: 'pointer' }}
+        title={name}
+        ellipsis={{ rows: 2 }}
+      >
+        {name}
+      </Typography.Paragraph>
+      <Typography.Text type="secondary">
+        {dayjs(schedule).format('DD MMM YYYY')}
+      </Typography.Text>
     </Card>
   );
 }

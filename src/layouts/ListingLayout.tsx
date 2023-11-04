@@ -44,6 +44,10 @@ export default function ListingLayout(props: ListingLayoutProps) {
           </Layout.Content>
         </Layout>
       </Layout>
+
+      <Layout.Footer style={{ textAlign: 'center' }}>
+        GreenSpace Connect ©2023 Created by CPI-FS-SDG-11-B
+      </Layout.Footer>
     </Layout>
   );
 }

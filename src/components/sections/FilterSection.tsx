@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/services/redux/store';
 import { removeUndefinedProperties } from '@/utils/helpers/object.helper';
 import { CollapseProps, Typography, Form, Collapse } from 'antd';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function FilterSection() {
   const router = useRouter();
@@ -32,7 +32,15 @@ export default function FilterSection() {
 
   useEffect(() => {
     dispatch(changeSearchFilter(router.query));
+
+    setProvinceId(
+      router.query.provinceId ? String(router.query.provinceId) : '',
+    );
+    setCityId(router.query.cityId ? String(router.query.cityId) : '');
   }, [router.query]);
+
+  const [provinceId, setProvinceId] = useState('');
+  const [cityId, setCityId] = useState('');
 
   const items: CollapseProps['items'] = [
     {
@@ -42,13 +50,13 @@ export default function FilterSection() {
         <Form layout="vertical">
           <Form.Item label="Provinsi">
             <ProvinceSelect
-              value={filter.provinceId ? +filter.provinceId : null}
+              value={provinceId ? +provinceId : null}
               onChange={(value) => onFilter('provinceId', value)}
             />
           </Form.Item>
           <Form.Item label="Kota">
             <CitySelect
-              value={filter.cityId ? +filter.cityId : null}
+              value={cityId ? +cityId : null}
               disabled={!filter.provinceId}
               provinceId={filter.provinceId}
               onChange={(value) => onFilter('cityId', value)}

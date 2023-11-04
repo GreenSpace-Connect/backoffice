@@ -1,8 +1,11 @@
+import Filtertag from '@/components/navigations/Filtertag';
 import EventSection from '@/components/sections/EventSection';
 import FilterSection from '@/components/sections/FilterSection';
 import GreenSpaceSection from '@/components/sections/GreenSpaceSection';
 import ListingLayout from '@/layouts/ListingLayout';
-import { Space, Tabs, TabsProps, Tag } from 'antd';
+import { changeSearchFilter } from '@/services/redux/reducers/searchFilterReducer';
+import store from '@/services/redux/store';
+import { Tabs, TabsProps } from 'antd';
 
 export default function GreenSpaceIndex() {
   const tabs: TabsProps['items'] = [
@@ -20,13 +23,19 @@ export default function GreenSpaceIndex() {
 
   return (
     <ListingLayout sider={<FilterSection />}>
-      <Space size={[0, 16]} wrap style={{ marginBottom: '1rem' }}>
-        <Tag>3 Hari</Tag>
-        <Tag>1 Minggu</Tag>
-        <Tag>1 Bulan</Tag>
-      </Space>
+      <Filtertag />
 
-      <Tabs defaultActiveKey="events" items={tabs} />
+      <Tabs
+        defaultActiveKey="events"
+        items={tabs}
+        onChange={() => {
+          store.dispatch(
+            changeSearchFilter({
+              page: 1,
+            }),
+          );
+        }}
+      />
     </ListingLayout>
   );
 }

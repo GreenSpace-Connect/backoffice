@@ -1,16 +1,22 @@
-import { Empty, Pagination, Row } from 'antd';
+import { Empty, Pagination, Row, Typography } from 'antd';
 import EventCard from '../cards/EventCard';
 import { useGetEvents } from '@/modules/master-data/events/hooks/useQuery';
 import ListColum from '../layouts/ListColumn';
-import { useAppSelector } from '@/services/redux/store';
-import { usePagination } from '@/utils/hooks/useFilter';
+import store, { useAppSelector } from '@/services/redux/store';
+import { changeSearchFilter } from '@/services/redux/reducers/searchFilterReducer';
+import Link from 'next/link';
 
-export default function EventSection() {
-  const pagination = usePagination();
+type EventSectionProps = {
+  seeMore?: boolean;
+};
+
+export default function EventSection(props: EventSectionProps) {
+  const { seeMore = false } = props;
+
   const filter = useAppSelector((state) => state.searchFilter);
 
   const eventDataHook = useGetEvents({
-    params: filter,
+    params: { ...filter, perPage: seeMore ? 4 : 8 },
   });
 
   if (eventDataHook.isFetching) {
@@ -31,6 +37,23 @@ export default function EventSection() {
 
   return (
     <>
+      {seeMore ? (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            marginBottom: '1rem',
+          }}
+        >
+          <Typography.Title level={2}>Events</Typography.Title>
+          <Link href="search">
+            <Typography.Text>See more</Typography.Text>
+          </Link>
+        </div>
+      ) : null}
+
       <Row gutter={16}>
         {eventDataHook.data?.items.map((event) => (
           <ListColum key={event.id}>
@@ -38,21 +61,28 @@ export default function EventSection() {
               name={event.name}
               schedule={event.schedule}
               thumbnail={event.thumbnail}
-              communityName={event.community.name}
+              community={event.community}
+              style={{ height: '100%' }}
             />
           </ListColum>
         ))}
       </Row>
 
-      <Pagination
-        style={{ marginTop: '2rem' }}
-        current={eventDataHook.data?.meta.currentPage}
-        onChange={(page) =>
-          pagination.onChange({
-            current: page,
-          })
-        }
-      />
+      {!seeMore ? (
+        <Pagination
+          style={{ marginTop: '2rem' }}
+          current={eventDataHook.data?.meta.currentPage}
+          pageSize={eventDataHook.data?.meta.perPage}
+          total={eventDataHook.data?.meta.total}
+          onChange={(page) => {
+            store.dispatch(
+              changeSearchFilter({
+                page,
+              }),
+            );
+          }}
+        />
+      ) : null}
     </>
   );
 }
