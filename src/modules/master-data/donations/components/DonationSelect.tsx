@@ -35,7 +35,7 @@ export default function DonationSelect(props: DonationSelectProps) {
           value: item.id,
         }))}
         loading={dataHook.isFetching}
-        onSearch={debounce(setSearch, 1000)}
+        onSearch={debounce(setSearch, 500)}
         allowClear
         {...rest}
       />

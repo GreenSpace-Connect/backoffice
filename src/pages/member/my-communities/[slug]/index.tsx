@@ -16,8 +16,6 @@ export default function MyCommunityPage() {
   const router = useRouter();
   const communityId = Number(router.query.slug);
 
-  const { form, setFields, updateMutation, onUpdate } = useCommunityForm();
-
   const communityDetail = useGetCommunityDetails({
     id: communityId,
     options: {
@@ -29,6 +27,9 @@ export default function MyCommunityPage() {
       },
     },
   });
+
+  const { form, setFields, updateMutation, onUpdate } =
+    useCommunityForm(communityDetail);
 
   const canUpdateCommunity =
     communityDetail.data?.data &&

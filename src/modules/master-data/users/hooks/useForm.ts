@@ -1,13 +1,13 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import { TUserPaginateResponse, TUserResponse } from '../entities/response';
+import { TUserResponse } from '../entities/response';
 import { Form } from 'antd';
 import { TUserPayload } from '../entities/request';
 import { useCreateUser, useDeleteUser, useUpdateUser } from './useQuery';
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useUserForm = (
-  dataHook?: TExpectQueryResult<TUserPaginateResponse>,
+export const useUserForm = <Response>(
+  dataHook?: TExpectQueryResult<Response>,
 ) => {
   const [form] = Form.useForm<TUserPayload>();
 

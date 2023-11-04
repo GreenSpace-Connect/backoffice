@@ -35,7 +35,7 @@ export default function CommunityUserSelect(props: CommunityUserSelectProps) {
           value: item.id,
         }))}
         loading={dataHook.isFetching}
-        onSearch={debounce(setSearch, 1000)}
+        onSearch={debounce(setSearch, 500)}
         allowClear
         {...rest}
       />

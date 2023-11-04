@@ -35,7 +35,7 @@ export default function UserSelect(props: UserSelectProps) {
           value: item.id,
         }))}
         loading={dataHook.isFetching}
-        onSearch={debounce(setSearch, 1000)}
+        onSearch={debounce(setSearch, 500)}
         allowClear
         {...rest}
       />

@@ -10,7 +10,9 @@ export default function GreenSpaceSection() {
   const filter = useAppSelector((state) => state.searchFilter);
 
   const greenplaceDataHook = useGetGreenPlaces({
-    params: filter,
+    params: {
+      ...filter,
+    },
   });
 
   if (greenplaceDataHook.isFetching) {
@@ -30,10 +32,14 @@ export default function GreenSpaceSection() {
   }
 
   return (
-    <Row>
+    <Row gutter={[16, 16]}>
       {greenplaceDataHook.data?.items.map((greenplace) => (
         <Col key={greenplace.id} xs={12} lg={8} xl={6}>
-          <GreenSpaceCard name={greenplace.name} address={greenplace.address} />
+          <GreenSpaceCard
+            name={greenplace.name}
+            address={greenplace.address}
+            style={{ height: '100%' }}
+          />
         </Col>
       ))}
     </Row>

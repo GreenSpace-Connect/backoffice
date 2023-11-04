@@ -4,6 +4,7 @@ import { ConfigProvider, ThemeConfig } from 'antd';
 import { NextPage } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { ReactElement, ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
@@ -53,14 +54,22 @@ export default function App({
   });
 
   return (
-    <SessionProvider session={session}>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <ConfigProvider theme={theme}>
-            {getLayout(<Component {...pageProps} />)}
-          </ConfigProvider>
-        </QueryClientProvider>
-      </Provider>
-    </SessionProvider>
+    <>
+      <Head>
+        <title>GreenSpace Connect</title>
+        <meta name="description" content="GreenSpace Connect" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+
+      <SessionProvider session={session}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <ConfigProvider theme={theme}>
+              {getLayout(<Component {...pageProps} />)}
+            </ConfigProvider>
+          </QueryClientProvider>
+        </Provider>
+      </SessionProvider>
+    </>
   );
 }
