@@ -1,4 +1,3 @@
-import Filtertag from '@/components/navigations/Filtertag';
 import EventSection from '@/components/sections/EventSection';
 import FilterSection from '@/components/sections/FilterSection';
 import GreenSpaceSection from '@/components/sections/GreenSpaceSection';
@@ -23,8 +22,6 @@ export default function GreenSpaceIndex() {
 
   return (
     <ListingLayout sider={<FilterSection />}>
-      <Filtertag />
-
       <Tabs
         defaultActiveKey="events"
         items={tabs}
