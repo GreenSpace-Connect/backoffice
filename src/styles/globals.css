@@ -32,9 +32,8 @@ body {
 .event-card .ant-card-body,
 .greenspace-card .ant-card-body {
   padding: 1rem;
-  border-radius: '1rem',
+  border-radius: '1rem';
 }
-
 
 .ant-slider-mark-text {
   width: max-content;
