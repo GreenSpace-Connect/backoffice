@@ -21,8 +21,9 @@ import { OwnUpload } from '@/components/inputs/OwnUpload';
 import { FilePlace } from '@/modules/upload/constant';
 import { TCommunityResponse } from '../../communities/entities/response';
 import dynamic from 'next/dynamic';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+const Editor = dynamic(() => import('@/components/inputs/Editor'), {
+  ssr: false,
+});
 
 type FormManagementProps = FormProps<TEventPayload> & {
   communityId?: TCommunityResponse['id'];
@@ -66,8 +67,7 @@ export default function EventForm(props: FormManagementProps) {
         <Input placeholder="Name..." />
       </Form.Item>
       <Form.Item label="Description" name="description" rules={[requiredRule]}>
-        <ReactQuill theme="snow" />
-        {/* <Input.TextArea placeholder="Description..." rows={10} /> */}
+        <Editor />
       </Form.Item>
       <Form.Item
         label="Community"
