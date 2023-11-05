@@ -5,8 +5,9 @@ import MemberLayout from '@/layouts/MemberLayout';
 import EventForm from '@/modules/master-data/events/components/EventForm';
 import { useEventForm } from '@/modules/master-data/events/hooks/useForm';
 import { useGetEventDetails } from '@/modules/master-data/events/hooks/useQuery';
-import { EditOutlined } from '@ant-design/icons';
-import { Button, Spin } from 'antd';
+import { EditOutlined, LinkOutlined } from '@ant-design/icons';
+import { Button, Spin, Typography } from 'antd';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function EventDetailsPage() {
@@ -56,6 +57,11 @@ export default function EventDetailsPage() {
                   />
                 </AsyncModal>
               ) : null}
+              <Typography.Text>
+                <Link href={`/event/${eventDetailsHook.data?.data.id}`}>
+                  <LinkOutlined />
+                </Link>
+              </Typography.Text>
             </>
           )}
         </div>

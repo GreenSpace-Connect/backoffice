@@ -1,4 +1,5 @@
 import {
+  CreditCardOutlined,
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
@@ -30,6 +31,15 @@ export default function AuthDropdown() {
           width: 150,
         },
         onClick: () => router.push('/member/my-profile'),
+      },
+      {
+        key: 'my-transactions',
+        label: 'My Transactions',
+        icon: <CreditCardOutlined />,
+        style: {
+          width: 150,
+        },
+        onClick: () => router.push('/member/my-transactions'),
       },
     ],
   };

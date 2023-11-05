@@ -1,12 +1,17 @@
 import NavBar from '@/components/navigations/Navbar';
 import SideBar, { getItem } from '@/components/navigations/Sider';
-import { PieChartOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  CreditCardOutlined,
+  PieChartOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Breadcrumb, Layout, Space, Typography } from 'antd';
 import { MenuItemType } from 'antd/es/menu/hooks/useItems';
 import Link from 'next/link';
 
 const menus: MenuItemType[] = [
   getItem('My Communities', '/member', <PieChartOutlined />),
+  getItem('My Transactions', '/member/my-transactions', <CreditCardOutlined />),
   getItem('My Profile', '/member/my-profile', <UserOutlined />),
 ];
 

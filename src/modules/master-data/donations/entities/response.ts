@@ -1,5 +1,6 @@
 import { TPaginateResponse, TResponseData } from '@/utils/entities/response';
 import { TEventResponse } from '../../events/entities/response';
+import { TDonationTransactionResponse } from '../../donation-transactions/entities/response';
 
 export type TDonationResponse = {
   id: number;
@@ -9,6 +10,7 @@ export type TDonationResponse = {
   endDate: string;
   expectDonation: number;
   event: TEventResponse;
+  donationTransaction: TDonationTransactionResponse[];
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

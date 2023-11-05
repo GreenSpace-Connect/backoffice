@@ -1,8 +1,5 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import {
-  TTicketTransactionPaginateResponse,
-  TTicketTransactionResponse,
-} from '../entities/response';
+import { TTicketTransactionResponse } from '../entities/response';
 import { Form } from 'antd';
 import { TTicketTransactionPayload } from '../entities/request';
 import {
@@ -13,8 +10,8 @@ import {
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useTicketTransactionForm = (
-  dataHook: TExpectQueryResult<TTicketTransactionPaginateResponse>,
+export const useTicketTransactionForm = <Response>(
+  dataHook?: TExpectQueryResult<Response>,
 ) => {
   const [form] = Form.useForm<TTicketTransactionPayload>();
 
@@ -30,7 +27,7 @@ export const useTicketTransactionForm = (
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: (data) => {
         failedMessage();
@@ -49,7 +46,7 @@ export const useTicketTransactionForm = (
       {
         onSuccess: () => {
           successMessage();
-          dataHook.refetch();
+          dataHook?.refetch();
         },
         onError: (data) => {
           failedMessage();
@@ -65,7 +62,7 @@ export const useTicketTransactionForm = (
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: () => {
         failedMessage();

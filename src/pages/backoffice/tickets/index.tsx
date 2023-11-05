@@ -8,6 +8,7 @@ import { useTicketForm } from '@/modules/master-data/tickets/hooks/useForm';
 import { useGetTickets } from '@/modules/master-data/tickets/hooks/useQuery';
 import { confirmDelete } from '@/services/antd/confirm';
 import { getnumberColumn } from '@/services/antd/table';
+import { convertToIdr } from '@/utils/helpers/string.helper';
 import { useTableFilter } from '@/utils/hooks/useFilter';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Space, Typography } from 'antd';
@@ -77,7 +78,9 @@ export default function TicketsPage() {
               {
                 title: 'Price',
                 render: (_, record) => (
-                  <Typography.Text>Rp {record.price}</Typography.Text>
+                  <Typography.Text>
+                    {convertToIdr(record.price)}
+                  </Typography.Text>
                 ),
               },
               {

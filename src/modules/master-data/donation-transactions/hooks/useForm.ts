@@ -1,8 +1,5 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import {
-  TDonationTransactionPaginateResponse,
-  TDonationTransactionResponse,
-} from '../entities/response';
+import { TDonationTransactionResponse } from '../entities/response';
 import { Form } from 'antd';
 import { TDonationTransactionPayload } from '../entities/request';
 import {
@@ -13,8 +10,8 @@ import {
 import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 
-export const useDonationTransactionForm = (
-  dataHook: TExpectQueryResult<TDonationTransactionPaginateResponse>,
+export const useDonationTransactionForm = <Response>(
+  dataHook?: TExpectQueryResult<Response>,
 ) => {
   const [form] = Form.useForm<TDonationTransactionPayload>();
 
@@ -31,7 +28,7 @@ export const useDonationTransactionForm = (
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: (data) => {
         failedMessage();
@@ -50,7 +47,7 @@ export const useDonationTransactionForm = (
       {
         onSuccess: () => {
           successMessage();
-          dataHook.refetch();
+          dataHook?.refetch();
         },
         onError: (data) => {
           failedMessage();
@@ -66,7 +63,7 @@ export const useDonationTransactionForm = (
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: () => {
         failedMessage();

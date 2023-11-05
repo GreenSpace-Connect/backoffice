@@ -1,10 +1,10 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Modal, ModalFuncProps } from 'antd';
 
-const { confirm } = Modal;
+const { confirm: confirmAnt } = Modal;
 
 export const confirmDelete = (props: ModalFuncProps) => {
-  confirm({
+  confirmAnt({
     title: 'Are you sure delete this item?',
     icon: <ExclamationCircleFilled />,
     okText: 'Yes',
@@ -12,4 +12,14 @@ export const confirmDelete = (props: ModalFuncProps) => {
     cancelText: 'No',
     ...props,
   });
+};
+
+export const confirm = (props: ModalFuncProps) => {
+  {
+    confirmAnt({
+      okText: 'Yes',
+      cancelText: 'No',
+      ...props,
+    });
+  }
 };

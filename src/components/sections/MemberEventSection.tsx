@@ -6,12 +6,7 @@ import { useTableFilter } from '@/utils/hooks/useFilter';
 import Datatable from '../tables/Datatable';
 import { getnumberColumn } from '@/services/antd/table';
 import { Button, Image, Space } from 'antd';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { DeleteOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import { confirmDelete } from '@/services/antd/confirm';
 import { useEventForm } from '@/modules/master-data/events/hooks/useForm';
 import TitleNavigation from '../navigations/TitleNavigation';
@@ -36,16 +31,8 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
     },
   });
 
-  const {
-    form,
-    setFields,
-    createMutation,
-    onCreate,
-    updateMutation,
-    onUpdate,
-    deleteMutation,
-    onDelete,
-  } = useEventForm(eventDataHook);
+  const { form, createMutation, onCreate, deleteMutation, onDelete } =
+    useEventForm(eventDataHook);
 
   return (
     <div>
@@ -114,26 +101,6 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
                       )
                     }
                   />
-
-                  <AsyncModal
-                    title="Update"
-                    button={
-                      <Button
-                        icon={<EditOutlined />}
-                        size="small"
-                        type="link"
-                        onClick={() => setFields(record)}
-                      />
-                    }
-                    mutation={updateMutation}
-                    onSubmit={form.submit}
-                  >
-                    <EventForm
-                      form={form}
-                      communityId={communityId}
-                      onFinish={() => onUpdate(record.id)}
-                    />
-                  </AsyncModal>
 
                   <Button
                     icon={<DeleteOutlined />}

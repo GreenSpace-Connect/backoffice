@@ -1,6 +1,6 @@
 import { TEventResponse } from '@/modules/master-data/events/entities/response';
+import { formatDate } from '@/utils/helpers/string.helper';
 import { Avatar, Card, CardProps, Space, Typography } from 'antd';
-import dayjs from 'dayjs';
 
 type EventCardProps = CardProps & {
   thumbnail?: TEventResponse['thumbnail'];
@@ -42,9 +42,7 @@ export default function EventCard(props: EventCardProps) {
       >
         {name}
       </Typography.Paragraph>
-      <Typography.Text type="secondary">
-        {dayjs(schedule).format('DD MMM YYYY')}
-      </Typography.Text>
+      <Typography.Text type="secondary">{formatDate(schedule)}</Typography.Text>
     </Card>
   );
 }

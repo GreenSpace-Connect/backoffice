@@ -2,6 +2,7 @@ import { Select, SelectProps } from 'antd';
 import { debounce } from 'lodash';
 import { useState } from 'react';
 import { useGetDonationTransactions } from '../hooks/useQuery';
+import { convertToIdr } from '@/utils/helpers/string.helper';
 
 type DonationTransactionSelectProps = SelectProps;
 
@@ -33,7 +34,9 @@ export default function DonationTransactionSelect(
             .includes(input.toLowerCase())
         }
         options={dataHook.data?.items.map((item) => ({
-          label: `Rp ${item.amount} - ${item.donation.name} - ${item.user.fullname}`,
+          label: `${convertToIdr(item.amount)} - ${item.donation.name} - ${
+            item.user.fullname
+          }`,
           value: item.id,
         }))}
         loading={dataHook.isFetching}

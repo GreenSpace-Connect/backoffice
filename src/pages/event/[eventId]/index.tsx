@@ -1,28 +1,63 @@
+import AsyncModal from '@/components/modals/AsyncModal';
 import ListingLayout from '@/layouts/ListingLayout';
+import DonationTransactionForm from '@/modules/master-data/donation-transactions/components/DonationTransactionForm';
+import { useDonationTransactionForm } from '@/modules/master-data/donation-transactions/hooks/useForm';
+import { useGetDonations } from '@/modules/master-data/donations/hooks/useQuery';
 import { useGetEventDetails } from '@/modules/master-data/events/hooks/useQuery';
+import TicketTransactionForm from '@/modules/master-data/ticket-transactions/components/TicketTransactionForm';
+import { useTicketTransactionForm } from '@/modules/master-data/ticket-transactions/hooks/useForm';
+import { useGetTickets } from '@/modules/master-data/tickets/hooks/useQuery';
+import { confirm } from '@/services/antd/confirm';
+import { convertToIdr, formatDate } from '@/utils/helpers/string.helper';
+import { EnvironmentOutlined, ScheduleOutlined } from '@ant-design/icons';
 import {
   Avatar,
   Breadcrumb,
+  Button,
   Card,
   Col,
   Image,
   Row,
+  Slider,
   Space,
   Spin,
   Tabs,
   TabsProps,
   Typography,
 } from 'antd';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function EventDetailsPage() {
+  const session = useSession();
+  const userId = session.data?.user?.id;
   const router = useRouter();
   const eventId = Number(router.query.eventId);
 
-  const eventDetailsHooks = useGetEventDetails({
+  const eventDetailsHook = useGetEventDetails({
     id: eventId,
   });
+
+  const donationDataHooks = useGetDonations({
+    params: {
+      eventId,
+    },
+    options: {
+      enabled: !!eventId,
+    },
+  });
+  const donationTransactionForm = useDonationTransactionForm(donationDataHooks);
+
+  const ticketDataHook = useGetTickets({
+    params: {
+      eventId,
+    },
+    options: {
+      enabled: !!eventId,
+    },
+  });
+  const ticketTransactionForm = useTicketTransactionForm(ticketDataHook);
 
   const tabs: TabsProps['items'] = [
     {
@@ -32,7 +67,7 @@ export default function EventDetailsPage() {
         <>
           <div
             dangerouslySetInnerHTML={{
-              __html: eventDetailsHooks.data?.data.description || '',
+              __html: eventDetailsHook.data?.data.description || '',
             }}
           />
         </>
@@ -42,24 +77,54 @@ export default function EventDetailsPage() {
       key: 'tickets',
       label: 'Tickets',
       children: (
-        <>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam,
-          optio?
-        </>
+        <div style={{ display: 'grid', gap: '1rem' }}>
+          {ticketDataHook.data?.items.map((ticket) => (
+            <Card key={ticket.id} title={ticket.name}>
+              <Typography.Title level={3} style={{ marginTop: 0 }}>
+                {convertToIdr(ticket.price)}
+              </Typography.Title>
+              <TicketTransactionForm
+                form={ticketTransactionForm.form}
+                ticketId={ticket.id}
+                userId={userId}
+              />
+              <Button
+                type="primary"
+                onClick={() => {
+                  confirm({
+                    title: 'Are you sure want to buy?',
+                    onCancel: () => {
+                      ticketTransactionForm.form.resetFields();
+                    },
+                    onOk: () => {
+                      ticketTransactionForm.form.setFieldsValue({
+                        ticketId: ticket.id,
+                        userId: userId,
+                      });
+                      ticketTransactionForm.onCreate();
+                    },
+                  });
+                }}
+              >
+                Buy Ticket
+              </Button>
+            </Card>
+          ))}
+        </div>
       ),
     },
   ];
 
   return (
     <ListingLayout>
-      {eventDetailsHooks.isFetching ? (
+      {eventDetailsHook.isFetching ? (
         <Spin />
       ) : (
         <>
           <Breadcrumb
             items={[
               { title: <Link href="/search">Search</Link> },
-              { title: eventDetailsHooks.data?.data.name },
+              { title: eventDetailsHook.data?.data.name },
             ]}
             style={{ marginBottom: '1rem' }}
           />
@@ -67,43 +132,119 @@ export default function EventDetailsPage() {
           <Row gutter={[48, 16]}>
             <Col xs={24} lg={16}>
               <Image
-                src={eventDetailsHooks.data?.data.thumbnail}
+                src={eventDetailsHook.data?.data.thumbnail}
                 width="100%"
+                style={{ borderRadius: '1rem' }}
               />
               <Typography.Title level={2}>
-                {eventDetailsHooks.data?.data.name}
+                {eventDetailsHook.data?.data.name}
               </Typography.Title>
 
               <Tabs defaultActiveKey="description" items={tabs} />
             </Col>
 
             <Col xs={24} lg={8}>
-              <Card
-                actions={[
-                  <Space key={1}>
-                    <Avatar
-                      src={eventDetailsHooks.data?.data.community.photo}
-                    />
-                    <Typography.Text style={{ fontSize: '10px' }}>
-                      {eventDetailsHooks.data?.data.community.name}
-                    </Typography.Text>
-                  </Space>,
-                ]}
-              >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-                sunt soluta nihil quia! Repellendus cum veritatis provident
-                animi quis voluptatem, quaerat ratione sed asperiores,
-                reiciendis laudantium. Voluptatem sequi aliquid aliquam eos!
-                Suscipit illo nam vel ratione eius doloribus mollitia corrupti
-                quos maiores pariatur in dolores quidem ad sunt nisi hic sit
-                earum ipsum optio, culpa, numquam et corporis molestiae. Aliquid
-                fugit eligendi voluptas labore commodi iste deleniti doloribus
-                consequatur nisi incidunt obcaecati, excepturi vero temporibus
-                esse id recusandae, aliquam dolorum magnam expedita culpa.
-                Cumque, cupiditate dolorem repellat consequuntur a sunt
-                molestiae eaque tempore deserunt soluta hic harum doloremque
-                consequatur aperiam.
-              </Card>
+              <div style={{ display: 'grid', gap: '1rem' }}>
+                <Card
+                  title="Details"
+                  actions={[
+                    <Space key={1}>
+                      <Avatar
+                        src={eventDetailsHook.data?.data.community.photo}
+                      />
+                      <Typography.Text style={{ fontSize: '10px' }}>
+                        {eventDetailsHook.data?.data.community.name}
+                      </Typography.Text>
+                    </Space>,
+                  ]}
+                >
+                  <div
+                    style={{
+                      display: 'grid',
+                      gap: '.5rem',
+                    }}
+                  >
+                    <Space align="start">
+                      <ScheduleOutlined />
+                      <Typography.Text>
+                        {formatDate(eventDetailsHook.data?.data.schedule)}
+                      </Typography.Text>
+                    </Space>
+                    <Space align="start">
+                      <EnvironmentOutlined />
+                      <Typography.Text>
+                        {eventDetailsHook.data?.data.address}
+                      </Typography.Text>
+                    </Space>
+                  </div>
+                </Card>
+
+                {donationDataHooks.data?.items.map((donation) => (
+                  <Card key={donation.id} title={donation.name}>
+                    <div
+                      style={{
+                        display: 'grid',
+                        gap: '.5rem',
+                      }}
+                    >
+                      <Typography.Paragraph>
+                        {donation.description}
+                      </Typography.Paragraph>
+                      <Typography.Text>
+                        {`${formatDate(donation.startDate)} - ${formatDate(
+                          donation.endDate,
+                        )}`}
+                      </Typography.Text>
+                      <Slider
+                        defaultValue={0}
+                        marks={{
+                          0: 'Rp 0',
+                          [donation.expectDonation]: `${convertToIdr(
+                            donation.expectDonation,
+                          )}`,
+                        }}
+                        max={donation.expectDonation}
+                        value={donation.donationTransaction.reduce(
+                          (accumulator, currentValue) =>
+                            accumulator + currentValue.amount,
+                          0,
+                        )}
+                        tooltip={{
+                          formatter: (value) =>
+                            convertToIdr(value ? +value : 0),
+                        }}
+                      />
+                      <AsyncModal
+                        title="Donate"
+                        button={
+                          <Button
+                            type="primary"
+                            onClick={() => {
+                              donationTransactionForm.form.resetFields();
+                              donationTransactionForm.form.setFieldsValue({
+                                donationId: donation.id,
+                                userId: userId,
+                              });
+                            }}
+                            block
+                          >
+                            Donate
+                          </Button>
+                        }
+                        mutation={donationTransactionForm.createMutation}
+                        onSubmit={donationTransactionForm.form.submit}
+                      >
+                        <DonationTransactionForm
+                          form={donationTransactionForm.form}
+                          donationId={donation.id}
+                          userId={userId}
+                          onFinish={donationTransactionForm.onCreate}
+                        />
+                      </AsyncModal>
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </Col>
           </Row>
         </>

@@ -12,6 +12,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import TicketForm from '@/modules/master-data/tickets/components/TicketForm';
 import { useTicketForm } from '@/modules/master-data/tickets/hooks/useForm';
 import { confirmDelete } from '@/services/antd/confirm';
+import { convertToIdr } from '@/utils/helpers/string.helper';
 
 type MemberEventTicketSectionProps = {
   eventId?: TEventResponse['id'];
@@ -83,7 +84,7 @@ export default function MemberEventTicketSection(
             {
               title: 'Price',
               render: (_, record) => (
-                <Typography.Text>Rp {record.price}</Typography.Text>
+                <Typography.Text>{convertToIdr(record.price)}</Typography.Text>
               ),
             },
             {

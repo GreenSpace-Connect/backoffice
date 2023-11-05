@@ -71,6 +71,12 @@ export default function TicketTransactionsPage() {
             columns: [
               getnumberColumn<TTicketTransactionResponse>(),
               {
+                title: 'Event',
+                render: (_, record) => (
+                  <Typography.Text>{record.ticket.event.name}</Typography.Text>
+                ),
+              },
+              {
                 title: 'Ticket',
                 render: (_, record) => (
                   <Typography.Text>{record.ticket.name}</Typography.Text>

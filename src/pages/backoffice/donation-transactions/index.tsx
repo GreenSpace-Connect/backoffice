@@ -8,6 +8,7 @@ import { useDonationTransactionForm } from '@/modules/master-data/donation-trans
 import { useGetDonationTransactions } from '@/modules/master-data/donation-transactions/hooks/useQuery';
 import { confirmDelete } from '@/services/antd/confirm';
 import { getnumberColumn } from '@/services/antd/table';
+import { convertToIdr } from '@/utils/helpers/string.helper';
 import { useTableFilter } from '@/utils/hooks/useFilter';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Space, Typography } from 'antd';
@@ -42,7 +43,7 @@ export default function DonationTransactionsPage() {
       extra={
         <Space>
           <AsyncModal
-            title="Update"
+            title="Insert"
             button={
               <Button
                 type="primary"
@@ -87,7 +88,9 @@ export default function DonationTransactionsPage() {
               {
                 title: 'Amount',
                 render: (_, record) => (
-                  <Typography.Text>Rp {record.amount}</Typography.Text>
+                  <Typography.Text>
+                    {convertToIdr(record.amount)}
+                  </Typography.Text>
                 ),
               },
               {

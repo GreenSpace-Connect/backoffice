@@ -39,7 +39,7 @@ export default function DonationsPage() {
       extra={
         <Space>
           <AsyncModal
-            title="Update"
+            title="Insert"
             button={
               <Button
                 type="primary"
