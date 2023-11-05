@@ -62,11 +62,13 @@ export default function GreenSpaceSection(props: GreenSpaceProps) {
       <Row gutter={[16, 16]}>
         {greenplaceDataHook.data?.items.map((greenplace) => (
           <Col key={greenplace.id} xs={12} lg={8} xl={6}>
-            <GreenSpaceCard
-              name={greenplace.name}
-              address={greenplace.address}
-              style={{ height: '100%' }}
-            />
+            <Link href={`/greenspace/${greenplace.id}`}>
+              <GreenSpaceCard
+                name={greenplace.name}
+                address={greenplace.address}
+                style={{ height: '100%' }}
+              />
+            </Link>
           </Col>
         ))}
       </Row>
@@ -80,6 +82,7 @@ export default function GreenSpaceSection(props: GreenSpaceProps) {
           onChange={(page) => {
             store.dispatch(
               changeSearchFilter({
+                ...filter,
                 page,
               }),
             );

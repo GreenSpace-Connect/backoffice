@@ -28,6 +28,7 @@ export default function GreenSpaceIndex() {
         onChange={() => {
           store.dispatch(
             changeSearchFilter({
+              ...store.getState().searchFilter,
               page: 1,
             }),
           );

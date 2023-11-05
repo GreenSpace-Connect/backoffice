@@ -57,13 +57,15 @@ export default function EventSection(props: EventSectionProps) {
       <Row gutter={16}>
         {eventDataHook.data?.items.map((event) => (
           <ListColum key={event.id}>
-            <EventCard
-              name={event.name}
-              schedule={event.schedule}
-              thumbnail={event.thumbnail}
-              community={event.community}
-              style={{ height: '100%' }}
-            />
+            <Link href={`/event/${event.id}`}>
+              <EventCard
+                name={event.name}
+                schedule={event.schedule}
+                thumbnail={event.thumbnail}
+                community={event.community}
+                style={{ height: '100%' }}
+              />
+            </Link>
           </ListColum>
         ))}
       </Row>
@@ -77,6 +79,7 @@ export default function EventSection(props: EventSectionProps) {
           onChange={(page) => {
             store.dispatch(
               changeSearchFilter({
+                ...filter,
                 page,
               }),
             );
