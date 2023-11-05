@@ -85,6 +85,7 @@ export default function AuthDropdown() {
         }}
         size="default"
         gap={4}
+        src={session.data?.user?.photo}
       >
         {session.data?.user?.fullname[0]}
       </Avatar>
