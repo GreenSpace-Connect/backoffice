@@ -5,6 +5,7 @@ import ProvinceSelect from '../../regions/provinces/components/ProvinceSelect';
 import CitySelect from '../../regions/cities/components/CitySelect';
 import DistrictSelect from '../../regions/districts/components/DistrictSelect';
 import Map from '@/components/cards/Map';
+import Editor from '@/components/inputs/Editor';
 
 type FormManagementProps = FormProps<TGreenPlacePayload>;
 
@@ -52,7 +53,7 @@ export default function GreenPlaceForm(props: FormManagementProps) {
         <Input placeholder="Name..." />
       </Form.Item>
       <Form.Item label="Description" name="description" rules={[requiredRule]}>
-        <Input.TextArea placeholder="Description..." rows={5} />
+        <Editor />
       </Form.Item>
       <Form.Item label="Province" name="provinceId" rules={[requiredRule]}>
         <ProvinceSelect
