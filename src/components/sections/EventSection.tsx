@@ -54,7 +54,7 @@ export default function EventSection(props: EventSectionProps) {
         </div>
       ) : null}
 
-      <Row gutter={16}>
+      <Row gutter={[16, 16]}>
         {eventDataHook.data?.items.map((event) => (
           <ListColum key={event.id}>
             <Link href={`/event/${event.id}`}>

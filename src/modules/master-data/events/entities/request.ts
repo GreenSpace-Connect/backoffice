@@ -7,6 +7,7 @@ import { TProvinceResponse } from '../../regions/provinces/entities/response';
 
 export type TEventParams = TDefaultParams<TEventResponse> & {
   search?: string;
+  placeName?: string;
   communityId?: TCommunityResponse['id'];
   provinceId?: TProvinceResponse['id'];
   cityId?: TCityResponse['id'];

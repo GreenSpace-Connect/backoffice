@@ -1,13 +1,14 @@
 import {
   Autocomplete,
   GoogleMap,
+  GoogleMapProps,
   Marker,
   useLoadScript,
 } from '@react-google-maps/api';
 import { Input } from 'antd';
 import { useRef, useState } from 'react';
 
-type MapProps = {
+type MapProps = GoogleMapProps & {
   defaultSelectedPlace?: string;
   defaultCurrentLocation?: google.maps.LatLngLiteral;
   hideSearch?: boolean;
@@ -22,6 +23,7 @@ export default function Map(props: MapProps) {
     hideSearch = false,
     onChangedLatLng,
     onSelectedPlace,
+    mapContainerStyle,
   } = props;
 
   const [selectedPlace, setSelectedPlace] = useState<string>(
@@ -106,7 +108,12 @@ export default function Map(props: MapProps) {
         zoom={selectedPlace ? 16 : 10}
         center={currentLocation}
         mapContainerClassName="map"
-        mapContainerStyle={{ width: '100%', height: '300px', margin: 'auto' }}
+        mapContainerStyle={{
+          width: '100%',
+          height: '300px',
+          margin: 'auto',
+          ...mapContainerStyle,
+        }}
         options={{
           disableDefaultUI: true,
         }}
