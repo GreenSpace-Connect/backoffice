@@ -1,6 +1,7 @@
 import {
   CreditCardOutlined,
   LogoutOutlined,
+  PieChartOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -41,20 +42,17 @@ export default function AuthDropdown() {
         },
         onClick: () => router.push('/member/my-transactions'),
       },
+      {
+        key: 'member',
+        label: 'My Community',
+        icon: <PieChartOutlined />,
+        style: {
+          width: 150,
+        },
+        onClick: () => router.push(`/member`),
+      },
     ],
   };
-
-  if (session.data?.user?.community.length) {
-    menu.items?.push({
-      key: 'member',
-      label: 'My Community',
-      icon: <SettingOutlined />,
-      style: {
-        width: 150,
-      },
-      onClick: () => router.push(`/member`),
-    });
-  }
 
   if (session.data?.user?.role.name === 'admin') {
     menu.items?.push({
