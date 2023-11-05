@@ -86,11 +86,13 @@ export default function EventDetailsPage() {
               <Typography.Title level={3} style={{ marginTop: 0 }}>
                 {convertToIdr(ticket.price)}
               </Typography.Title>
-              <TicketTransactionForm
-                form={ticketTransactionForm.form}
-                ticketId={ticket.id}
-                userId={userId}
-              />
+              {userId ? (
+                <TicketTransactionForm
+                  form={ticketTransactionForm.form}
+                  ticketId={ticket.id}
+                  userId={userId}
+                />
+              ) : null}
               <Button
                 type="primary"
                 onClick={() => {
@@ -108,6 +110,7 @@ export default function EventDetailsPage() {
                     },
                   });
                 }}
+                disabled={!userId}
               >
                 Buy Ticket
               </Button>
@@ -241,6 +244,7 @@ export default function EventDetailsPage() {
                               });
                             }}
                             block
+                            disabled={!userId}
                           >
                             Donate
                           </Button>
