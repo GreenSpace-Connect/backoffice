@@ -8,19 +8,32 @@ import { Input } from 'antd';
 import { useRef, useState } from 'react';
 
 type MapProps = {
+  defaultSelectedPlace?: string;
+  defaultCurrentLocation?: google.maps.LatLngLiteral;
+  hideSearch?: boolean;
   onChangedLatLng?: (value: google.maps.LatLngLiteral) => void;
   onSelectedPlace?: (name: string, address: string) => void;
 };
 
 export default function Map(props: MapProps) {
-  const { onChangedLatLng, onSelectedPlace } = props;
+  const {
+    defaultSelectedPlace,
+    defaultCurrentLocation,
+    hideSearch = false,
+    onChangedLatLng,
+    onSelectedPlace,
+  } = props;
 
-  const [selectedPlace, setSelectedPlace] = useState<string>();
+  const [selectedPlace, setSelectedPlace] = useState<string>(
+    defaultSelectedPlace || '',
+  );
   const [currentLocation, setCurrentLocation] =
-    useState<google.maps.LatLngLiteral>({
-      lat: -6.2297401,
-      lng: 106.7471174,
-    });
+    useState<google.maps.LatLngLiteral>(
+      defaultCurrentLocation || {
+        lat: -6.2297401,
+        lng: 106.7471174,
+      },
+    );
   const autocompleteRef = useRef<google.maps.places.Autocomplete>();
 
   // load script for google map
@@ -36,7 +49,7 @@ export default function Map(props: MapProps) {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
       if (place) {
-        setSelectedPlace(place.name);
+        setSelectedPlace(String(place.name));
         setCurrentLocation({
           lat: place.geometry?.location?.lat() || 0,
           lng: place.geometry?.location?.lng() || 0,
@@ -68,24 +81,26 @@ export default function Map(props: MapProps) {
         position: 'relative',
       }}
     >
-      <Autocomplete
-        onLoad={(autocomplete) => {
-          console.log('Autocomplete loaded:', autocomplete);
-          autocompleteRef.current = autocomplete;
-        }}
-        onPlaceChanged={handlePlaceChanged}
-        options={{ fields: ['address_components', 'geometry', 'name'] }}
-      >
-        <Input
-          placeholder="Search for a location..."
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            width: '40%',
-            margin: '.5rem 0 0 .5rem',
+      {!hideSearch ? (
+        <Autocomplete
+          onLoad={(autocomplete) => {
+            console.log('Autocomplete loaded:', autocomplete);
+            autocompleteRef.current = autocomplete;
           }}
-        />
-      </Autocomplete>
+          onPlaceChanged={handlePlaceChanged}
+          options={{ fields: ['address_components', 'geometry', 'name'] }}
+        >
+          <Input
+            placeholder="Search for a location..."
+            style={{
+              position: 'absolute',
+              zIndex: 1,
+              width: '40%',
+              margin: '.5rem 0 0 .5rem',
+            }}
+          />
+        </Autocomplete>
+      ) : null}
 
       <GoogleMap
         zoom={selectedPlace ? 16 : 10}

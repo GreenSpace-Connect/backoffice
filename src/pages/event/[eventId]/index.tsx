@@ -16,6 +16,7 @@ import {
   Button,
   Card,
   Col,
+  Empty,
   Image,
   Row,
   Slider,
@@ -28,6 +29,7 @@ import {
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Map from '@/components/cards/Map';
 
 export default function EventDetailsPage() {
   const session = useSession();
@@ -78,6 +80,7 @@ export default function EventDetailsPage() {
       label: 'Tickets',
       children: (
         <div style={{ display: 'grid', gap: '1rem' }}>
+          {!ticketDataHook.data?.items.length ? <Empty /> : null}
           {ticketDataHook.data?.items.map((ticket) => (
             <Card key={ticket.id} title={ticket.name}>
               <Typography.Title level={3} style={{ marginTop: 0 }}>
@@ -145,6 +148,17 @@ export default function EventDetailsPage() {
 
             <Col xs={24} lg={8}>
               <div style={{ display: 'grid', gap: '1rem' }}>
+                {eventDetailsHook.data?.data ? (
+                  <Map
+                    defaultSelectedPlace={eventDetailsHook.data.data.placeName}
+                    defaultCurrentLocation={{
+                      lat: Number(eventDetailsHook.data.data.latitude),
+                      lng: Number(eventDetailsHook.data.data.longitude),
+                    }}
+                    hideSearch
+                  />
+                ) : null}
+
                 <Card
                   title="Details"
                   actions={[
