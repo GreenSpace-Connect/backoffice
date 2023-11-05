@@ -5,7 +5,10 @@ import ProvinceSelect from '../../regions/provinces/components/ProvinceSelect';
 import CitySelect from '../../regions/cities/components/CitySelect';
 import DistrictSelect from '../../regions/districts/components/DistrictSelect';
 import Map from '@/components/cards/Map';
-import Editor from '@/components/inputs/Editor';
+import dynamic from 'next/dynamic';
+const Editor = dynamic(() => import('@/components/inputs/Editor'), {
+  ssr: false,
+});
 
 type FormManagementProps = FormProps<TGreenPlacePayload>;
 
