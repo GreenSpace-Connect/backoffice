@@ -7,14 +7,14 @@ import CommunityForm from '@/modules/master-data/communities/components/Communit
 import { useCommunityForm } from '@/modules/master-data/communities/hooks/useForm';
 import { useGetCommunityDetails } from '@/modules/master-data/communities/hooks/useQuery';
 import { EditOutlined } from '@ant-design/icons';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Spin } from 'antd';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 export default function MyCommunityPage() {
   const session = useSession();
   const router = useRouter();
-  const communityId = Number(router.query.slug);
+  const communityId = Number(router.query.communityId);
 
   const communityDetail = useGetCommunityDetails({
     id: communityId,
@@ -46,7 +46,11 @@ export default function MyCommunityPage() {
           }}
         >
           <Avatar src={communityDetail.data?.data.photo} size={64} />
-          {communityDetail.data?.data.name}
+          {communityDetail.isFetching ? (
+            <Spin />
+          ) : (
+            communityDetail.data?.data.name
+          )}
           {communityDetail.data?.data && canUpdateCommunity && (
             <AsyncModal
               title="Update"

@@ -96,19 +96,6 @@ export default function MyCommunityPage() {
                       )
                     }
                   />
-
-                  {/* <Button
-                    icon={<DeleteOutlined />}
-                    size="small"
-                    type="link"
-                    danger
-                    loading={deleteMutation.isLoading}
-                    onClick={() => {
-                      confirmDelete({
-                        onOk: () => onDelete(record.id),
-                      });
-                    }}
-                  /> */}
                 </Space>
               ),
             },

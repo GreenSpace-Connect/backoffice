@@ -1,38 +1,32 @@
-import { TCommunityResponse } from '@/modules/master-data/communities/entities/response';
-import { TEventParams } from '@/modules/master-data/events/entities/request';
+import { TDonationParams } from '@/modules/master-data/donations/entities/request';
+import { TDonationResponse } from '@/modules/master-data/donations/entities/response';
+import { useDonationForm } from '@/modules/master-data/donations/hooks/useForm';
+import { useGetDonations } from '@/modules/master-data/donations/hooks/useQuery';
 import { TEventResponse } from '@/modules/master-data/events/entities/response';
-import { useGetEvents } from '@/modules/master-data/events/hooks/useQuery';
 import { useTableFilter } from '@/utils/hooks/useFilter';
-import Datatable from '../tables/Datatable';
-import { getnumberColumn } from '@/services/antd/table';
-import { Button, Image, Space } from 'antd';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
-import { confirmDelete } from '@/services/antd/confirm';
-import { useEventForm } from '@/modules/master-data/events/hooks/useForm';
 import TitleNavigation from '../navigations/TitleNavigation';
+import { Button, Space } from 'antd';
 import AsyncModal from '../modals/AsyncModal';
-import EventForm from '@/modules/master-data/events/components/EventForm';
-import { useRouter } from 'next/router';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import DonationForm from '@/modules/master-data/donations/components/DonationForm';
+import { confirmDelete } from '@/services/antd/confirm';
+import { getnumberColumn } from '@/services/antd/table';
+import Datatable from '../tables/Datatable';
 
-type MemberEventSectionProps = {
-  communityId: TCommunityResponse['id'];
+type MemberEventDonationSectionProps = {
+  eventId?: TEventResponse['id'];
 };
 
-export default function MemberEventSection(props: MemberEventSectionProps) {
-  const { communityId } = props;
+export default function MemberEventDonationSection(
+  props: MemberEventDonationSectionProps,
+) {
+  const { eventId } = props;
 
-  const router = useRouter();
-
-  const filterHook = useTableFilter<TEventParams, TEventResponse>();
-  const eventDataHook = useGetEvents({
+  const filterHook = useTableFilter<TDonationParams, TDonationResponse>();
+  const donationDataHook = useGetDonations({
     params: {
       ...filterHook.params,
-      communityId,
+      eventId,
     },
   });
 
@@ -45,23 +39,23 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
     onUpdate,
     deleteMutation,
     onDelete,
-  } = useEventForm(eventDataHook);
+  } = useDonationForm(donationDataHook);
 
   return (
     <div>
       <TitleNavigation
-        title="My Event"
+        title="Open Donations"
         extra={
           <Space>
             <AsyncModal
-              title="Insert"
+              title="Update"
               button={
                 <Button
                   type="primary"
                   icon={<PlusOutlined />}
                   onClick={() => {
                     form.resetFields();
-                    form?.setFieldValue('communityId', communityId);
+                    form?.setFieldValue('eventId', eventId);
                   }}
                 >
                   Add Item
@@ -70,11 +64,7 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
               mutation={createMutation}
               onSubmit={form.submit}
             >
-              <EventForm
-                form={form}
-                communityId={communityId}
-                onFinish={onCreate}
-              />
+              <DonationForm form={form} eventId={eventId} onFinish={onCreate} />
             </AsyncModal>
           </Space>
         }
@@ -83,19 +73,13 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
       <Datatable
         onSearch={(value) => filterHook.onChange('search', value)}
         tableProps={{
-          dataSource: eventDataHook.data?.items,
-          loading: eventDataHook.isFetching,
-          pagination: eventDataHook.data?.meta,
+          dataSource: donationDataHook.data?.items,
+          loading: donationDataHook.isFetching,
+          pagination: donationDataHook.data?.meta,
           onChange: filterHook.pagination.onChange,
           columns: [
-            getnumberColumn<TEventResponse>(),
+            getnumberColumn<TDonationResponse>(),
             { title: 'Name', dataIndex: 'name' },
-            {
-              title: 'Thumbnail',
-              render: (_, record) => (
-                <Image src={record.thumbnail} width={100} height={100} />
-              ),
-            },
             {
               title: 'Action',
               dataIndex: 'id',
@@ -104,17 +88,6 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
               fixed: 'right',
               render: (_, record) => (
                 <Space>
-                  <Button
-                    icon={<EyeOutlined />}
-                    size="small"
-                    type="link"
-                    onClick={() =>
-                      router.push(
-                        `/member/my-communities/${record.community.id}/events/${record.id}`,
-                      )
-                    }
-                  />
-
                   <AsyncModal
                     title="Update"
                     button={
@@ -128,9 +101,9 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
                     mutation={updateMutation}
                     onSubmit={form.submit}
                   >
-                    <EventForm
+                    <DonationForm
                       form={form}
-                      communityId={communityId}
+                      eventId={eventId}
                       onFinish={() => onUpdate(record.id)}
                     />
                   </AsyncModal>

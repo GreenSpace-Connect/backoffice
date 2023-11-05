@@ -1,38 +1,32 @@
-import { TCommunityResponse } from '@/modules/master-data/communities/entities/response';
-import { TEventParams } from '@/modules/master-data/events/entities/request';
 import { TEventResponse } from '@/modules/master-data/events/entities/response';
-import { useGetEvents } from '@/modules/master-data/events/hooks/useQuery';
+import { TTicketParams } from '@/modules/master-data/tickets/entities/request';
+import { TTicketResponse } from '@/modules/master-data/tickets/entities/response';
+import { useGetTickets } from '@/modules/master-data/tickets/hooks/useQuery';
 import { useTableFilter } from '@/utils/hooks/useFilter';
+import TitleNavigation from '../navigations/TitleNavigation';
+import { Button, Space, Typography } from 'antd';
 import Datatable from '../tables/Datatable';
 import { getnumberColumn } from '@/services/antd/table';
-import { Button, Image, Space } from 'antd';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
-import { confirmDelete } from '@/services/antd/confirm';
-import { useEventForm } from '@/modules/master-data/events/hooks/useForm';
-import TitleNavigation from '../navigations/TitleNavigation';
 import AsyncModal from '../modals/AsyncModal';
-import EventForm from '@/modules/master-data/events/components/EventForm';
-import { useRouter } from 'next/router';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import TicketForm from '@/modules/master-data/tickets/components/TicketForm';
+import { useTicketForm } from '@/modules/master-data/tickets/hooks/useForm';
+import { confirmDelete } from '@/services/antd/confirm';
 
-type MemberEventSectionProps = {
-  communityId: TCommunityResponse['id'];
+type MemberEventTicketSectionProps = {
+  eventId?: TEventResponse['id'];
 };
 
-export default function MemberEventSection(props: MemberEventSectionProps) {
-  const { communityId } = props;
+export default function MemberEventTicketSection(
+  props: MemberEventTicketSectionProps,
+) {
+  const { eventId } = props;
 
-  const router = useRouter();
-
-  const filterHook = useTableFilter<TEventParams, TEventResponse>();
-  const eventDataHook = useGetEvents({
+  const filterHook = useTableFilter<TTicketParams, TTicketResponse>();
+  const ticketDataHook = useGetTickets({
     params: {
       ...filterHook.params,
-      communityId,
+      eventId,
     },
   });
 
@@ -45,23 +39,23 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
     onUpdate,
     deleteMutation,
     onDelete,
-  } = useEventForm(eventDataHook);
+  } = useTicketForm(ticketDataHook);
 
   return (
     <div>
       <TitleNavigation
-        title="My Event"
+        title="My Tickets"
         extra={
           <Space>
             <AsyncModal
-              title="Insert"
+              title="Update"
               button={
                 <Button
                   type="primary"
                   icon={<PlusOutlined />}
                   onClick={() => {
                     form.resetFields();
-                    form?.setFieldValue('communityId', communityId);
+                    form?.setFieldValue('eventId', eventId);
                   }}
                 >
                   Add Item
@@ -70,11 +64,7 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
               mutation={createMutation}
               onSubmit={form.submit}
             >
-              <EventForm
-                form={form}
-                communityId={communityId}
-                onFinish={onCreate}
-              />
+              <TicketForm form={form} eventId={eventId} onFinish={onCreate} />
             </AsyncModal>
           </Space>
         }
@@ -83,17 +73,17 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
       <Datatable
         onSearch={(value) => filterHook.onChange('search', value)}
         tableProps={{
-          dataSource: eventDataHook.data?.items,
-          loading: eventDataHook.isFetching,
-          pagination: eventDataHook.data?.meta,
+          dataSource: ticketDataHook.data?.items,
+          loading: ticketDataHook.isFetching,
+          pagination: ticketDataHook.data?.meta,
           onChange: filterHook.pagination.onChange,
           columns: [
-            getnumberColumn<TEventResponse>(),
+            getnumberColumn<TTicketResponse>(),
             { title: 'Name', dataIndex: 'name' },
             {
-              title: 'Thumbnail',
+              title: 'Price',
               render: (_, record) => (
-                <Image src={record.thumbnail} width={100} height={100} />
+                <Typography.Text>Rp {record.price}</Typography.Text>
               ),
             },
             {
@@ -104,17 +94,6 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
               fixed: 'right',
               render: (_, record) => (
                 <Space>
-                  <Button
-                    icon={<EyeOutlined />}
-                    size="small"
-                    type="link"
-                    onClick={() =>
-                      router.push(
-                        `/member/my-communities/${record.community.id}/events/${record.id}`,
-                      )
-                    }
-                  />
-
                   <AsyncModal
                     title="Update"
                     button={
@@ -128,9 +107,9 @@ export default function MemberEventSection(props: MemberEventSectionProps) {
                     mutation={updateMutation}
                     onSubmit={form.submit}
                   >
-                    <EventForm
+                    <TicketForm
                       form={form}
-                      communityId={communityId}
+                      eventId={eventId}
                       onFinish={() => onUpdate(record.id)}
                     />
                   </AsyncModal>

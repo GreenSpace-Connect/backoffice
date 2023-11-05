@@ -1,9 +1,24 @@
-type DefaultLayoutProps = {
+import { theme } from 'antd';
+import { HTMLAttributes } from 'react';
+
+type DefaultLayoutProps = HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode;
+  withColorBg?: boolean;
 };
 
 export default function DefaultLayout(props: DefaultLayoutProps) {
-  const { children } = props;
+  const { children, withColorBg = false, style, ...args } = props;
 
-  return <div>{children}</div>;
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
+  return (
+    <div
+      style={{ backgroundColor: withColorBg ? colorBgContainer : '', ...style }}
+      {...args}
+    >
+      {children}
+    </div>
+  );
 }

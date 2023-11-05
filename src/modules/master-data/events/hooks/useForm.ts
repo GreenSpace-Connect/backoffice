@@ -1,5 +1,5 @@
 import { TExpectQueryResult } from '@/utils/entities/hook';
-import { TEventPaginateResponse, TEventResponse } from '../entities/response';
+import { TEventResponse } from '../entities/response';
 import { Form } from 'antd';
 import { TEventPayload } from '../entities/request';
 import { useCreateEvent, useDeleteEvent, useUpdateEvent } from './useQuery';
@@ -7,8 +7,8 @@ import { setErrorForm } from '@/services/antd/form';
 import { successMessage, failedMessage } from '@/services/antd/message';
 import dayjs from 'dayjs';
 
-export const useEventForm = (
-  dataHook: TExpectQueryResult<TEventPaginateResponse>,
+export const useEventForm = <Response>(
+  dataHook?: TExpectQueryResult<Response>,
 ) => {
   const [form] = Form.useForm<TEventPayload>();
 
@@ -34,7 +34,7 @@ export const useEventForm = (
     createMutation.mutate(form.getFieldsValue(), {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: (data) => {
         failedMessage();
@@ -53,7 +53,7 @@ export const useEventForm = (
       {
         onSuccess: () => {
           successMessage();
-          dataHook.refetch();
+          dataHook?.refetch();
         },
         onError: (data) => {
           failedMessage();
@@ -69,7 +69,7 @@ export const useEventForm = (
     deleteMutation.mutate(id, {
       onSuccess: () => {
         successMessage();
-        dataHook.refetch();
+        dataHook?.refetch();
       },
       onError: () => {
         failedMessage();

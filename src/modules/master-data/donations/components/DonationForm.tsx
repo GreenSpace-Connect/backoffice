@@ -2,15 +2,23 @@ import { DatePicker, Form, FormProps, Input, InputNumber } from 'antd';
 import { TDonationPayload } from '../entities/request';
 import { requiredRule } from '@/services/antd/validation';
 import EventSelect from '../../events/components/EventSelect';
+import { TEventResponse } from '../../events/entities/response';
 
-type FormManagementProps = FormProps<TDonationPayload>;
+type FormManagementProps = FormProps<TDonationPayload> & {
+  eventId?: TEventResponse['id'];
+};
 
 export default function DonationForm(props: FormManagementProps) {
-  const { ...rest } = props;
+  const { eventId, ...rest } = props;
 
   return (
     <Form layout="vertical" {...rest}>
-      <Form.Item label="Event" name="eventId" rules={[requiredRule]}>
+      <Form.Item
+        label="Event"
+        name="eventId"
+        rules={[requiredRule]}
+        hidden={!!eventId}
+      >
         <EventSelect />
       </Form.Item>
       <Form.Item label="Name" name="name" rules={[requiredRule]}>
