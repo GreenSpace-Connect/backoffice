@@ -1,16 +1,12 @@
-import EventCard from '@/components/cards/EventCard';
 import Map from '@/components/cards/Map';
-import ListColum from '@/components/layouts/ListColumn';
 import AsyncModal from '@/components/modals/AsyncModal';
+import EventSection from '@/components/sections/EventSection';
 import ListingLayout from '@/layouts/ListingLayout';
 import ComplaintForm from '@/modules/master-data/complaints/components/ComplaintForm';
 import { TComplaintParams } from '@/modules/master-data/complaints/entities/request';
 import { TComplaintResponse } from '@/modules/master-data/complaints/entities/response';
 import { useComplaintForm } from '@/modules/master-data/complaints/hooks/useForm';
 import { useGetComplaints } from '@/modules/master-data/complaints/hooks/useQuery';
-import { TEventParams } from '@/modules/master-data/events/entities/request';
-import { TEventResponse } from '@/modules/master-data/events/entities/response';
-import { useGetEvents } from '@/modules/master-data/events/hooks/useQuery';
 import { useGetGreenPlaceDetails } from '@/modules/master-data/green-places/hooks/useQuery';
 import { useTableFilter } from '@/utils/hooks/useFilter';
 import { EnvironmentOutlined, GlobalOutlined } from '@ant-design/icons';
@@ -39,18 +35,6 @@ export default function GreenSpaceDetailsPage() {
 
   const greenSpaceDetailHook = useGetGreenPlaceDetails({
     id: greenspaceId,
-  });
-  const placeName = greenSpaceDetailHook.data?.data.name;
-
-  const eventsFilterHook = useTableFilter<TEventParams, TEventResponse>();
-  const eventDataHook = useGetEvents({
-    params: {
-      ...eventsFilterHook.params,
-      placeName,
-    },
-    options: {
-      enabled: !!placeName,
-    },
   });
 
   const complaintsFilterHook = useTableFilter<
@@ -208,21 +192,8 @@ export default function GreenSpaceDetailsPage() {
 
             <Col xs={24}>
               <Typography.Title level={3}>Events</Typography.Title>
-              <Row gutter={[16, 16]} style={{ marginTop: '2rem' }}>
-                {eventDataHook.data?.items.map((event) => (
-                  <ListColum key={event.id}>
-                    <Link href={`/event/${event.id}`}>
-                      <EventCard
-                        name={event.name}
-                        schedule={event.schedule}
-                        thumbnail={event.thumbnail}
-                        community={event.community}
-                        style={{ height: '100%' }}
-                      />
-                    </Link>
-                  </ListColum>
-                ))}
-              </Row>
+
+              <EventSection placeName={greenSpaceDetailHook.data?.data.name} />
             </Col>
           </Row>
         </>

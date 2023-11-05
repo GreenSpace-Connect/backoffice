@@ -5,18 +5,20 @@ import ListColum from '../layouts/ListColumn';
 import store, { useAppSelector } from '@/services/redux/store';
 import { changeSearchFilter } from '@/services/redux/reducers/searchFilterReducer';
 import Link from 'next/link';
+import { TGreenPlaceResponse } from '@/modules/master-data/green-places/entities/response';
 
 type EventSectionProps = {
   seeMore?: boolean;
+  placeName?: TGreenPlaceResponse['name'];
 };
 
 export default function EventSection(props: EventSectionProps) {
-  const { seeMore = false } = props;
+  const { seeMore = false, placeName } = props;
 
   const filter = useAppSelector((state) => state.searchFilter);
 
   const eventDataHook = useGetEvents({
-    params: { ...filter, perPage: seeMore ? 4 : 8 },
+    params: { ...filter, perPage: seeMore ? 4 : 8, placeName },
   });
 
   if (eventDataHook.isFetching) {
